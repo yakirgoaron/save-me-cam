@@ -15,6 +15,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet>
 	
 	<servlet>
+		<servlet-name>MMSServerLocalImageExtract</servlet-name>
+		<servlet-class>com.server.MMSServer.MMSServerLocalImageExtract</servlet-class>
+	</servlet>
+	
+	<servlet>
         <servlet-name>Quercus Servlet</servlet-name>
         <servlet-class>com.caucho.quercus.servlet.GoogleQuercusServlet</servlet-class>
     </servlet>
@@ -28,7 +33,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>MMSServerLocalSaveImage</servlet-name>
 		<url-pattern>/mmsserverlocalsaveimage</url-pattern>
 	</servlet-mapping>
-		
+	
+	<servlet-mapping>
+		<servlet-name>MMSServerLocalImageExtract</servlet-name>
+		<url-pattern>/mmsserverlocalimageextract</url-pattern>
+	</servlet-mapping>	
+	
 	<servlet-mapping>
         <servlet-name>Quercus Servlet</servlet-name>
         <url-pattern>*.php</url-pattern>
