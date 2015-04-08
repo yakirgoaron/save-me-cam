@@ -1,0 +1,80 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://myapp.appspot.com/_ah/api",
+  "name" : "imagemanager",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://myapp.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "imagemanager.scores.get" : {
+      "path" : "imagesaver/{Title}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.server.MMSServer.ServerCommunication.MMSCommunication.get",
+      "request" : {
+        "parameters" : {
+          "Title" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "ImageSaver" : {
+        "id" : "ImageSaver",
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string"
+          },
+          "imageType" : {
+            "type" : "string"
+          },
+          "image" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.server.MMSServer.ServerCommunication.MMSCommunication.get" : {
+        "response" : {
+          "$ref" : "ImageSaver"
+        }
+      }
+    }
+  }
+}
