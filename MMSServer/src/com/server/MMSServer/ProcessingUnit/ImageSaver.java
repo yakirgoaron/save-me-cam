@@ -1,7 +1,7 @@
 package com.server.MMSServer.ProcessingUnit;
-import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Key;
-
+import java.util.List;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -28,7 +28,7 @@ public class ImageSaver {
     private String imageType;
 
     @Persistent
-    private Blob image;
+    private List<Integer> image;
 
     //...
 
@@ -45,12 +45,12 @@ public class ImageSaver {
         return title;
     }
 
-    public byte[] getImage() {
+    public List<Integer> getImage() {
         if (image == null) {
             return null;
         }
 
-        return image.getBytes();
+        return image;
     }
 
 
@@ -62,8 +62,8 @@ public class ImageSaver {
         this.title = Title;
     }
 
-    public void setImage(byte[] bytes) {
-        this.image = new Blob(bytes);
+    public void setImage(List<Integer> bytes) {
+        this.image = bytes;
     }
 
     //...

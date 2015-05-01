@@ -5,12 +5,15 @@ import javax.jdo.Query;
 import java.util.List;
 public class ProcessRequest 
 {
-	public boolean SaveImageToDB(String strTelephoneNumber,byte[] picData)
+	public boolean SaveImageToDB(String strTelephoneNumber,List<Integer> picData)
 	{
 		boolean isSuccess = true;
 		ImageSaver img = new ImageSaver();
 		
-		img.setImageType("Type");
+		if(strTelephoneNumber == "SUCCESS")
+			img.setImageType("SUCCESS");
+		else
+			img.setImageType("Type");
 		img.setImage(picData);
 		img.setTitle(strTelephoneNumber);
 		PersistenceManager pm =  PMF.get().getPersistenceManager();
