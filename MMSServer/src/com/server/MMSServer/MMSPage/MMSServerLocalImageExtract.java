@@ -90,7 +90,7 @@ public class MMSServerLocalImageExtract extends HttpServlet
 				
 				logger.fine( "save");
 				ProcessRequest prcUnit = new ProcessRequest();
-				boolean isSuccess = prcUnit.SaveImageToDB(telephoneNumber, array);
+				boolean isSuccess = prcUnit.SaveImageToDB(telephoneNumber, nData);
 				if(isSuccess)
 				{
 					logger.fine("return");

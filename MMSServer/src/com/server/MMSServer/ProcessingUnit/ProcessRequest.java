@@ -5,7 +5,7 @@ import javax.jdo.Query;
 import java.util.List;
 public class ProcessRequest 
 {
-	public boolean SaveImageToDB(String strTelephoneNumber,List<Integer> picData)
+	public boolean SaveImageToDB(String strTelephoneNumber,byte[] picData)
 	{
 		boolean isSuccess = true;
 		ImageSaver img = new ImageSaver();
