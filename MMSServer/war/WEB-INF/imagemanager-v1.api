@@ -59,10 +59,8 @@
             "type" : "string"
           },
           "image" : {
-            "type" : "array",
-            "items" : {
-              "type" : "integer"
-            }
+            "type" : "string",
+            "format" : "byte"
           },
           "id" : {
             "type" : "string",
