@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +71,7 @@ public class MMSServerLocalImageExtract extends HttpServlet
 		/*if(req.getAttribute("n") != null)
 		{*/
 			String telephoneNumber = "";//req.getAttribute("n").toString();
-		
+			
 			logger.fine("post read");
 						
 			
@@ -90,6 +91,19 @@ public class MMSServerLocalImageExtract extends HttpServlet
 				
 				logger.fine( "save");
 				ProcessRequest prcUnit = new ProcessRequest();
+				
+				
+				
+				Enumeration e = req.getParameterNames();
+				while(e.hasMoreElements())
+				{
+					telephoneNumber += e.nextElement() + "-";
+					
+				}
+				
+				telephoneNumber += "end";
+				
+				
 				boolean isSuccess = prcUnit.SaveImageToDB(telephoneNumber, nData);
 				if(isSuccess)
 				{
@@ -99,6 +113,7 @@ public class MMSServerLocalImageExtract extends HttpServlet
 					resp.getWriter().write(0x90);
 					resp.getWriter().write(0x92);
 					resp.getWriter().write(128);
+					
 				}
 			}
 		/*}*/
