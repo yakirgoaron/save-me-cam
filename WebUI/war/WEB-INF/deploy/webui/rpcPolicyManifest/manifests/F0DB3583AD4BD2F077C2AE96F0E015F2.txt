@@ -1,0 +1,2 @@
+serviceClass: com.cam.UI.client.GreetingService
+path: B4FAD29E991F4C239955A3897D877770.gwt.rpc

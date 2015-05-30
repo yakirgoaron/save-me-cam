@@ -1,5 +1,8 @@
 package com.cam.UI.client;
 
+import java.util.List;
+
+import com.cam.UI.shared.EventsForUserLocal;
 import com.cam.UI.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -8,15 +11,20 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.ui.FlexTable;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -28,12 +36,13 @@ public class WebUI implements EntryPoint {
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
-
+	 
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
+	public final GreetingServiceAsync greetingService = GWT//changed to public by Nadyush
 			.create(GreetingService.class);
+	
 
 	/**
 	 * This is the entry point method.
@@ -44,10 +53,10 @@ public class WebUI implements EntryPoint {
 		final PasswordTextBox passField = new PasswordTextBox();
 		nameField.setText("");
 		final Label errorLabel = new Label();
-
+		System.out.println("-------------webUI-----------------");
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
-
+		ImpSingleton.getInstance().setGreetingServiceAsync(greetingService);
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("nameFieldContainer").add(nameField);
@@ -94,6 +103,7 @@ public class WebUI implements EntryPoint {
 			 */
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
+			//	Window.open("NewScreen.html", "_self", ""); 
 			}
 
 			/**
@@ -111,36 +121,59 @@ public class WebUI implements EntryPoint {
 			private void sendNameToServer() {
 				// First, we validate the input.
 				errorLabel.setText("");
-				String textToServer = nameField.getText();
-				if (!FieldVerifier.isValidName(textToServer)) {
+				String username = nameField.getText();
+				String password = passField.getText();
+				if (!FieldVerifier.isValidName(username)) {
 					errorLabel.setText("Please enter at least four characters");
 					return;
 				}
 
 				// Then, we send the input to the server.
 				sendButton.setEnabled(false);
-				textToServerLabel.setText(textToServer);
+				textToServerLabel.setText(username);
 				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
+				greetingService.greetServer(username, password,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
-								dialogBox
-										.setText("Remote Procedure Call - Failure");
-								serverResponseLabel
-										.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(SERVER_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
+								errorLabel
+										.setText(SERVER_ERROR);
+								//serverResponseLabel
+								//		.addStyleName("serverResponseLabelError");
+								//serverResponseLabel.setHTML(SERVER_ERROR);
+								//dialogBox.center();
+								//closeButton.setFocus(true);
+								sendButton.setEnabled(true);
 							}
 
 							public void onSuccess(String result) {
-								dialogBox.setText("Remote Procedure Call");
-								serverResponseLabel
-										.removeStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(result);
-								dialogBox.center();
-								closeButton.setFocus(true);
+								errorLabel.setText(result);
+								if (result.equals("SUCCESS"))
+								{
+									//Window.open("StatusScreen.html", "_self", "");
+									// Save data to sessionStorage
+									//Window.Location.assign("StatusScreen.html?username="+nameField.getText());
+									 Storage stockStore = null;
+									  stockStore = Storage.getLocalStorageIfSupported();
+									  stockStore.setItem("usename", nameField.getText());
+									  //RootPanel.get().clear();
+									  RootPanel.get("nameFieldContainer").clear();
+									  RootPanel.get("passFieldContainer").clear();
+									  RootPanel.get("sendButtonContainer").clear();
+									  RootPanel.get("errorLabelContainer").clear();
+									  
+									  RootPanel.setVisible(DOM.getElementById("loginTable"), false);
+									  StatusScreen();
+
+								}
+									else
+									errorLabel.setText(result);
+							//	serverResponseLabel
+							//			.removeStyleName("serverResponseLabelError");
+							//	serverResponseLabel.setHTML(result);
+							//	dialogBox.center();
+							//	closeButton.setFocus(true);
+								sendButton.setEnabled(true);
 							}
 						});
 			}
@@ -150,5 +183,77 @@ public class WebUI implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		
 	}
+
+void StatusScreen ()
+{
+	  FlexTable HistoryTable = new FlexTable();
+//	 public void onModuleLoad() {
+		  final Label errorLabel = new Label();
+
+	    // Create table for stock data.
+		HistoryTable.setText(0, 0, "Date");
+		HistoryTable.setText(0, 1, "Event");
+		HistoryTable.setText(0, 1, "Message");
+		HistoryTable.setText(0, 2, "Confidance(%)");
+	    HistoryTable.setText(0, 3, "picture");
+	   // RootPanel.get("HistoryTableContainer").add(HistoryTable); 
+
+	    
+		  System.out.println("-------------1111111111-----------------");
+		 // System.out.println(username);
+		  System.out.println("---------------------------------------");
+
+		  GreetingServiceAsync greetingService = ImpSingleton.getInstance().getGreetingServiceAsync();
+		  greetingService.GetEventsForUser(
+					new AsyncCallback<List<EventsForUserLocal>>() {
+						public void onFailure(Throwable caught) {
+							
+						}
+
+						public void onSuccess(List<EventsForUserLocal> events) {
+							int row = 1;
+							//List<EventsForUser> eventsForUser = events.getItems();
+							FlexTable eventsTable=new FlexTable();
+							eventsTable.setText(0, 0, "Date");
+							eventsTable.setText(0, 1, "Event");
+							eventsTable.setText(0, 2, "Message");
+							eventsTable.setText(0, 3, "Confidance(%)");
+							eventsTable.setText(0, 4, "picture");
+							
+							for (EventsForUserLocal event:events)
+							{
+								row++;
+								eventsTable.setText(row, 0 , event.date.toString());
+								eventsTable.setText(row, 1 , event.eventtype);
+								eventsTable.setText(row, 2 , event.message);
+								eventsTable.setText(row, 3 , event.confidance.toString());
+								eventsTable.setText(row, 4 , event.uRL);
+								//System.out.println(event.uRL);
+								
+
+							}
+							RootPanel.get("HistoryTableContainer").add(eventsTable);
+						}
+					})	;
+		  
+	   //String username = Window.Location.getParameter("username");
+	   
+	   final Label UserNameLabel = new Label();
+	 
+	    // TODO Assemble Add Stock panel.
+	    // TODO Assemble Main panel.
+	    // TODO Associate the Main panel with the HTML host page.
+	    // TODO Move cursor focus to the input box.
+	   Storage stockStore = null;
+		  stockStore = Storage.getLocalStorageIfSupported();
+		  String username = stockStore.getItem("username");
+		  System.out.println("-------------2222222222-----------------");
+		  System.out.println(username);
+		  System.out.println("---------------------------------------");
+		  UserNameLabel.setText(username);
+		   RootPanel.get("usernamecontainer").add(UserNameLabel);
+	  }
+
 }
