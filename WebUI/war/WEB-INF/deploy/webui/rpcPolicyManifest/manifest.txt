@@ -1,3 +1,2 @@
 # Module webui
 # RPC service class, partial path of RPC policy file
-com.cam.UI.client.GreetingService, F6AF1408170C8D6BD0BDF68A650705E3.gwt.rpc
