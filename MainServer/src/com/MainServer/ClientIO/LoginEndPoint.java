@@ -30,5 +30,14 @@ public class LoginEndPoint {
 	    }
 	    
 	}
+	
+	@ApiMethod(name = "createuser", httpMethod = HttpMethod.POST)
+	public void createuser(@Named("user") String user,@Named("Name") String Name,@Named("Mail") String Mail,@Named("Number") String Number)
+	{
+	    ProcessRequest check = new ProcessRequest();
+	    Camera currUser = check.getUserCmaeraByName(user);
+	    check.SaveUserToDB(currUser.getId(), Name, Mail, Number);
+	    
+	}
 
 }
