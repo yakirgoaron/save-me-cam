@@ -37,21 +37,31 @@ public class QueryEventsEndPoint {
 		List<EventsForUser> eventUsers = new ArrayList();
 	    ProcessRequest check = new ProcessRequest();
 	    Camera user = check.getUserCmaeraByName(userName);
-	    List<Events> eventsDB = check.getEventsByUser(user.getId());
-	    for (Iterator iterator = eventsDB.iterator(); iterator.hasNext();)
+	    if(user != null)
 	    {
-			Events events = (Events) iterator.next();
-			EventsForUser userTemp = new EventsForUser();
-			userTemp.date = events.getDate();
-			userTemp.eventtype = events.getTypeId().toString();
-			userTemp.message = events.getMessage();
-			DetectImage imageData = check.getDetectImageByUserAndImage(events.getImageID());
-			userTemp.URL = "http://5-dot-uplifted-plate-89814.appspot.com/mainserver?key="+imageData.getimageSaverId();
-			userTemp.confidance =  (double)imageData.getdetection();
-			eventUsers.add(userTemp);
-			
-		}
-
+		    List<Events> eventsDB = check.getEventsByUser(user.getId());
+		    if(eventsDB != null)
+		    {
+			    for (Iterator iterator = eventsDB.iterator(); iterator.hasNext();)
+			    {
+			    	if(iterator != null)
+			    	{
+						Events events = (Events) iterator.next();
+						EventsForUser userTemp = new EventsForUser();
+						userTemp.date = events.getDate();
+						userTemp.eventtype = events.getTypeId() != null ? events.getTypeId().toString() : "";
+						userTemp.message = events.getMessage();
+						DetectImage imageData = check.getDetectImageByUserAndImage(events.getImageID());
+						if(imageData != null)
+						{
+							userTemp.URL = "http://5-dot-uplifted-plate-89814.appspot.com/mainserver?key="+imageData.getimageSaverId();
+							userTemp.confidance =  (double)imageData.getdetection();
+						}
+						eventUsers.add(userTemp);
+			    	}
+				}
+		    }
+	    }
 	    return eventUsers;
 	}
 	public class EventsForUser
