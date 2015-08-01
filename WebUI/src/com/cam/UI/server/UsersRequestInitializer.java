@@ -31,7 +31,7 @@ package com.cam.UI.server;
  * </pre>
  *
  * <p>
- * There is also a constructor to set both the key and userIp parameters:
+ * There is also a con structor to set both the key and userIp parameters:
  * </p>
  *
  * <pre>

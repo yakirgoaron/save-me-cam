@@ -28,7 +28,7 @@ public class UsersScopes {
   /** View your email address. */
   public static final String USERINFO_EMAIL = "https://www.googleapis.com/auth/userinfo.email";
 
-  /**
+  /** 
    * Returns an unmodifiable set that contains all scopes declared by this class.
    *
    * @since 1.16

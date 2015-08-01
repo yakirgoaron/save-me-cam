@@ -27,7 +27,7 @@ package com.cam.UI.server;
  * </p>
  *
  * @author Google, Inc.
- */
+ */ 
 @SuppressWarnings("javadoc")
 public final class UserCollection extends com.google.api.client.json.GenericJson {
 

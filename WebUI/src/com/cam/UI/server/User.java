@@ -24,7 +24,7 @@ package com.cam.UI.server;
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the users. For a detailed explanation see:
  * <a href="http://code.google.com/p/google-http-java-client/wiki/JSON">http://code.google.com/p/google-http-java-client/wiki/JSON</a>
- * </p>
+ * </p> 
  *
  * @author Google, Inc.
  */
