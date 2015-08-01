@@ -63,6 +63,41 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				+ ".<br><br>It looks like -- "+a+" --  you are using:<br>" + userAgent;*/
 	}
 	
+	
+	public String createuser(String name, String phone, String mail) throws IllegalArgumentException {
+		String a = "Fail";
+		logger.fine("start 1");
+		// Verify that the input is valid. 
+
+
+		String serverInfo = getServletContext().getServerInfo();
+		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+
+		// Escape data from the client to avoid cross-site script vulnerabilities.
+		name = escapeHtml(name);
+		phone = escapeHtml(phone);
+		mail = escapeHtml(mail);
+		userAgent = escapeHtml(userAgent);
+		
+		Logincam.Builder builder = new Logincam.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+		Logincam service = builder.build();
+		Logincam quote = new Logincam(builder);
+		
+		String b = "OK";
+		try {
+			
+			quote.createuser(this.username, name, mail, phone).execute();
+			a = "Added User!";
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			b = e.getMessage() + "<br>";
+			b += e.getLocalizedMessage();
+			a = "ERROR - User Name or Password is incorrect";
+		}
+		return (a); /*"Hello, " + b + "!<br><br>I am running " + serverInfo
+				+ ".<br><br>It looks like -- "+a+" --  you are using:<br>" + userAgent;*/
+	}
 	public List<EventsForUserLocal> GetEventsForUser()
 	{
 		Query.Builder builder = new Query.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
