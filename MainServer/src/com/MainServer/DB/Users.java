@@ -34,7 +34,7 @@ public class Users {
     private String Number;
     
     @Persistent
-    private Key CameraID;
+    private Long CameraID;
     
      //...
 
@@ -74,12 +74,12 @@ public class Users {
 	}
 
 
-	public Key getCameraID() {
+	public Long getCameraID() {
 		return CameraID;
 	}
 
 
-	public void setCameraID(Key CameraID) {
+	public void setCameraID(Long CameraID) {
 		this.CameraID = CameraID;
 	}
     

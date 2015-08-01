@@ -3,6 +3,9 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 
+
+import com.google.api.server.spi.config.Named;
+
 import java.util.Date;
 import java.util.List;
 public class ProcessRequest 
@@ -77,6 +80,34 @@ public class ProcessRequest
 		 try 
 		 {
             pm.makePersistent(eve);
+         }
+		 catch(Exception e)
+		 {
+			 isSuccess = false;
+		 }
+		 finally 
+		 {
+            pm.close();
+         }
+		 
+		 return isSuccess;
+	}
+	
+	public boolean SaveUserToDB(Long CameraId,String Name,String Mail, String Number)
+	{
+		boolean isSuccess = true;
+		Users user = new Users();
+		
+		user.setCameraID(CameraId);
+		user.setMail(Mail);
+		user.setName(Name);
+		user.setNumber(Number);
+	
+		
+		PersistenceManager pm =  PMF.get().getPersistenceManager();
+		 try 
+		 {
+            pm.makePersistent(user);
          }
 		 catch(Exception e)
 		 {

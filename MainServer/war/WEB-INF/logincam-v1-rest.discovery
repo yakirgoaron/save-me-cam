@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/LPNH062bLMryNvk_Uyq567G89d4\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/eF0Q36tw0mawjCTG-Q5zZ4t99D8\"",
  "discoveryVersion": "v1",
  "id": "logincam:v1",
  "name": "logincam",
@@ -11,10 +11,10 @@
   "x32": "http://www.google.com/images/icons/product/search-32.gif"
  },
  "protocol": "rest",
- "baseUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/logincam/v1/login/",
- "basePath": "/_ah/api/logincam/v1/login/",
+ "baseUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/logincam/v1/",
+ "basePath": "/_ah/api/logincam/v1/",
  "rootUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/",
- "servicePath": "logincam/v1/login/",
+ "servicePath": "logincam/v1/",
  "batchPath": "batch",
  "parameters": {
   "alt": {
@@ -71,9 +71,45 @@
   }
  },
  "methods": {
+  "createuser": {
+   "id": "logincam.createuser",
+   "path": "createuser/{user}/{Name}/{Mail}/{Number}",
+   "httpMethod": "POST",
+   "parameters": {
+    "Mail": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "Name": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "Number": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "user": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "user",
+    "Name",
+    "Mail",
+    "Number"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "login": {
    "id": "logincam.login",
-   "path": "{user}/{password}",
+   "path": "login/{user}/{password}",
    "httpMethod": "POST",
    "parameters": {
     "password": {
