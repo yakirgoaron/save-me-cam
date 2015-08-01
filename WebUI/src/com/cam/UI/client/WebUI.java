@@ -6,8 +6,10 @@ import com.cam.UI.shared.EventsForUserLocal;
 import com.cam.UI.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -63,7 +65,9 @@ public class WebUI implements EntryPoint {
 		RootPanel.get("passFieldContainer").add(passField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
-
+		nameField.setVisibleLength(10);
+		passField.setVisibleLength(13);
+		
 		// Focus the cursor on the name field when the app loads
 		nameField.setFocus(true);
 		nameField.selectAll();
@@ -183,27 +187,22 @@ public class WebUI implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		passField.addKeyUpHandler(new KeyUpHandler() {
+
+		    @Override
+		    public void onKeyUp(KeyUpEvent event) {
+		     if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+		    	 DomEvent.fireNativeEvent(Document.get().createClickEvent(0, 0, 0, 0, 0,
+		    	            false, false, false, false), sendButton);;
+		     }
+		           }
+		    
+		});
 		
 	}
 
 void StatusScreen ()
 {
-	  FlexTable HistoryTable = new FlexTable();
-//	 public void onModuleLoad() {
-		  final Label errorLabel = new Label();
-
-	    // Create table for stock data.
-		HistoryTable.setText(0, 0, "Date");
-		HistoryTable.setText(0, 1, "Event");
-		HistoryTable.setText(0, 1, "Message");
-		HistoryTable.setText(0, 2, "Confidance(%)");
-	    HistoryTable.setText(0, 3, "picture");
-	   // RootPanel.get("HistoryTableContainer").add(HistoryTable); 
-
-	    
-		  System.out.println("-------------1111111111-----------------");
-		 // System.out.println(username);
-		  System.out.println("---------------------------------------");
 
 		  GreetingServiceAsync greetingService = ImpSingleton.getInstance().getGreetingServiceAsync();
 		  greetingService.GetEventsForUser(
@@ -214,7 +213,6 @@ void StatusScreen ()
 
 						public void onSuccess(List<EventsForUserLocal> events) {
 							int row = 1;
-							//List<EventsForUser> eventsForUser = events.getItems();
 							FlexTable eventsTable=new FlexTable();
 							eventsTable.setText(0, 0, "Date");
 							eventsTable.setText(0, 1, "Event");
@@ -230,30 +228,10 @@ void StatusScreen ()
 								eventsTable.setText(row, 2 , event.message);
 								eventsTable.setText(row, 3 , event.confidance.toString());
 								eventsTable.setText(row, 4 , event.uRL);
-								//System.out.println(event.uRL);
-								
-
 							}
 							RootPanel.get("HistoryTableContainer").add(eventsTable);
 						}
 					})	;
-		  
-	   //String username = Window.Location.getParameter("username");
-	   
-	   final Label UserNameLabel = new Label();
-	 
-	    // TODO Assemble Add Stock panel.
-	    // TODO Assemble Main panel.
-	    // TODO Associate the Main panel with the HTML host page.
-	    // TODO Move cursor focus to the input box.
-	   Storage stockStore = null;
-		  stockStore = Storage.getLocalStorageIfSupported();
-		  String username = stockStore.getItem("username");
-		  System.out.println("-------------2222222222-----------------");
-		  System.out.println(username);
-		  System.out.println("---------------------------------------");
-		  UserNameLabel.setText(username);
-		   RootPanel.get("usernamecontainer").add(UserNameLabel);
 	  }
 
 }
