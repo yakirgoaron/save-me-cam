@@ -14,5 +14,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface GreetingService extends RemoteService {
 	String greetServer(String username, String password) throws IllegalArgumentException;
 	List<EventsForUserLocal> GetEventsForUser();
+	List<UsersForCameraLocal> GetUsersForCamera();
+	void createUser(String cameraname, String name, String phone, String mail);
 	
 }
