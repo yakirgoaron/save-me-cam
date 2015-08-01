@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import com.cam.UI.client.GreetingService;
 import com.cam.UI.shared.EventsForUserLocal;
 import com.cam.UI.shared.FieldVerifier;
+import com.cam.UI.shared.UsersForCameraLocal;
 import com.google.gwt.dom.builder.shared.QuoteBuilder;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
@@ -78,6 +79,31 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				temp.message = event.getMessage();
 				temp.uRL = event.getURL();
 				temp.confidance = event.getConfidance();
+				localArray.add(temp);
+			}
+			return localArray;
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return localArray;
+		}//username
+	}
+	
+	public List<UsersForCameraLocal> GetUsersForCamera()
+	{
+		Query.Builder builder = new Query.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+	    Query service = builder.build();
+	    List<UsersForCameraLocal> localArray = new ArrayList<EventsForUserLocal>();
+	    try {
+			UsersForCameraCollection users = service.queryevents(this.username).execute();
+			List<UsersForCamera> usersforcamera = users.getItems();
+			for (UsersForCamera user:usersforcamera)
+			{
+				UsersForCameraLocal temp = new UsersForCameraLocal();
+				temp.name = user.getName();
+				temp.phone = user.getPone();
+				temp.mail = user.getMail();
 				localArray.add(temp);
 			}
 			return localArray;
