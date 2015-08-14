@@ -18,6 +18,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -51,6 +52,7 @@ public class WebUI implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		final Button sendButton = new Button("Send");
+		final Button userButton = new Button("User Page");
 		final TextBox nameField = new TextBox();
 		final PasswordTextBox passField = new PasswordTextBox();
 		nameField.setText("");
@@ -102,6 +104,7 @@ public class WebUI implements EntryPoint {
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
+
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
@@ -167,7 +170,9 @@ public class WebUI implements EntryPoint {
 									  RootPanel.get("errorLabelContainer").clear();
 									  
 									  RootPanel.setVisible(DOM.getElementById("loginTable"), false);
-									  StatusScreen();
+									 
+									  StatusScreen(userButton);
+									  //MenuScreen();
 
 								}
 									else
@@ -183,9 +188,23 @@ public class WebUI implements EntryPoint {
 			}
 		}
 
+		
+		class tempHandler implements ClickHandler{
+
+			/**
+			 * Fired when the user clicks on the sendButton.
+			 */
+			public void onClick(ClickEvent event) {
+				UserScreen();
+			//	Window.open("NewScreen.html", "_self", ""); 
+			}
+		}
+
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
+		tempHandler handler1 = new tempHandler();
 		sendButton.addClickHandler(handler);
+		userButton.addClickHandler(handler1);
 		nameField.addKeyUpHandler(handler);
 		passField.addKeyUpHandler(new KeyUpHandler() {
 
@@ -201,7 +220,7 @@ public class WebUI implements EntryPoint {
 		
 	}
 
-void StatusScreen ()
+void StatusScreen (Button userButton)
 {
 
 		  GreetingServiceAsync greetingService = ImpSingleton.getInstance().getGreetingServiceAsync();
@@ -214,6 +233,9 @@ void StatusScreen ()
 						public void onSuccess(List<EventsForUserLocal> events) {
 							int row = 1;
 							FlexTable eventsTable=new FlexTable();
+							eventsTable.setWidth("50em");
+							eventsTable.setCellSpacing(5);
+							eventsTable.setCellPadding(3);
 							eventsTable.setText(0, 0, "Date");
 							eventsTable.setText(0, 1, "Event");
 							eventsTable.setText(0, 2, "Message");
@@ -226,12 +248,33 @@ void StatusScreen ()
 								eventsTable.setText(row, 0 , event.date.toString());
 								eventsTable.setText(row, 1 , event.eventtype);
 								eventsTable.setText(row, 2 , event.message);
-								eventsTable.setText(row, 3 , event.confidance.toString());
+								
+								if (event.confidance != null)
+									eventsTable.setText(row, 3 , event.confidance.toString());
+								else
+									eventsTable.setText(row, 3 , "---");
+								
 								eventsTable.setText(row, 4 , event.uRL);
 							}
+							eventsTable.setBorderWidth(5);
 							RootPanel.get("HistoryTableContainer").add(eventsTable);
 						}
 					})	;
+		  
+		  RootPanel.get("usersButtonContainer").add(userButton);
 	  }
 
+void MenuScreen ()
+{
+	final DisclosurePanel DisclosureMenu = new DisclosurePanel();
+	//RootPanel.get("HistoryTableContainer").clear();
+	DisclosureMenu.setHeader(new Label ("header"));
+	DisclosureMenu.setContent(new Label("Disclosure panel with a specific expand/collapse button"));
+	RootPanel.get("DisclosureMenuContainer").add(DisclosureMenu);
+}
+
+void UserScreen(){
+	
+	
+}
 }

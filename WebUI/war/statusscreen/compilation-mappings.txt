@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+17CE7FF52B6D01CE6A2212D2EF89829F.cache.js
+user.agent ie10
+
+2F3BE77CC5C2903EBA381D2665C3059C.cache.js
+user.agent safari
+
+8E773C439C2C7DA86E5A53133DAB049D.cache.js
+=======
 1D915D2350E73406E769AF4D9488DBEE.cache.js
 user.agent gecko1_8
 
@@ -8,9 +17,13 @@ A73191E5BF74112C65E65790160A5EA4.cache.js
 user.agent ie9
 
 B7B298A0D7A26764E4598A262DDA2A1C.cache.js
+>>>>>>> branch 'master' of https://github.com/yakirgoaron/save-me-cam
 user.agent ie8
 
 E61F1EC0F00AE8ACA41411476D8FDBE8.cache.js
 user.agent safari
+
+94558CD8D164E145003901B96CBE9044.cache.js
+user.agent gecko1_8
 
 Devmode:devmode.js
