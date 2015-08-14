@@ -229,4 +229,29 @@ public class ProcessRequest
 
 	    return null;
 	}
+	
+	public List<Users> getUsersByCamera(Long CameraID)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		// Search for any Movie object with the passed-in title; limit the number
+	    // of results returned to 1 since there should be at most one movie with
+	    // a given title
+	    Query query = pm.newQuery(Events.class, "CameraID == " + CameraID);
+	    //query.declareParameters("String numberParam");
+	    query.setRange(0, 1);
+
+	    try {
+	        List<Users> results = (List<Users>) query.execute(CameraID);
+	        if (results.iterator().hasNext()) {
+	            // If the results list is non-empty, return the first (and only)
+	            // result
+	            return results;
+	        }
+	    } finally {
+	        query.closeAll();
+	        pm.close();
+	    }
+
+	    return null;
+	}
 }
