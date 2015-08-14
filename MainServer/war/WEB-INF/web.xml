@@ -15,7 +15,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>com.MainServer.ClientIO.ImageProcessAPI,com.MainServer.ClientIO.LoginEndPoint,com.MainServer.ClientIO.QueryEventsEndPoint</param-value>
+   <param-value>com.MainServer.ClientIO.GetUsersForCamera,com.MainServer.ClientIO.ImageProcessAPI,com.MainServer.ClientIO.LoginEndPoint,com.MainServer.ClientIO.QueryEventsEndPoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>
