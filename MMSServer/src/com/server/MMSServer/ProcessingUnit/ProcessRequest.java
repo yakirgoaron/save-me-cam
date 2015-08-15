@@ -2,6 +2,9 @@ package com.server.MMSServer.ProcessingUnit;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
+import com.google.api.client.json.gson.GsonFactory;
+
 import java.util.List;
 public class ProcessRequest 
 {
@@ -19,7 +22,12 @@ public class ProcessRequest
 		PersistenceManager pm =  PMF.get().getPersistenceManager();
 		 try 
 		 {
-            pm.makePersistent(img);
+			 ImageSaver temp = pm.makePersistent(img);
+            
+            Imagecam.Builder builder = new Imagecam.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+            Imagecam service = builder.build();
+            Imagecam quote = new Imagecam(builder);
+            quote.sendimage(temp.getId(),(long) 123456).execute();
          }
 		 catch(Exception e)
 		 {
