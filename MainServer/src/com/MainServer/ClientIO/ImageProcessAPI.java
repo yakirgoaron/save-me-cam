@@ -6,9 +6,12 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.MainServer.SendMail;
 import com.MainServer.DB.Camera;
+import com.MainServer.DB.DetectImage;
 import com.MainServer.DB.ImageSaver;
 import com.MainServer.DB.ProcessRequest;
+import com.MainServer.DB.Users;
 import com.MainServer.SkiAPI.SkyAPI;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -37,16 +40,18 @@ public class ImageProcessAPI {
 	    SkyAPI sky = new SkyAPI();
 	    
 	    int detection = sky.PicSync("http://5-dot-uplifted-plate-89814.appspot.com/mainserver?key=" + ImageKey);
-	   
+	    
 	    ProcessRequest prc = new ProcessRequest();
 	    
 	    Camera currUser =  prc.getUserCmaeraByName(number.toString());
 	    
-	    prc.SaveImageProcToDB(currUser.getId(), detection, ImageKey);
-	    
+	    DetectImage res = prc.SaveImageProcToDB(currUser.getId(), detection, ImageKey);
+	   
 	    if (detection > 50)
 	    {
-	    	prc.SaveEventsToDB(currUser.getId(), "SOMONE DETECTED !!!!!!",ImageKey);
+	    	 prc.SaveEventsToDB(currUser.getId(), "SOMEONE DETECTED !!!!!!",res.getId());
+	    	List<Users> temp =prc.getUsersByCamera(currUser.getId());
+	    	SendMail.SendMailToUsers("SOMEONE DETECTED !!!!!!", "SOMEONE DETECTED !!!!!!", temp);
 	    }
 	}
 

@@ -11,6 +11,7 @@ import com.github.mhendred.face4j.model.Photo;
 
 public class SkyAPI 
 {
+	private static final Logger logger = Logger.getLogger("SkyAPI");
 	/**
 	 * Your SkyBiometry API key
 	 */
@@ -51,18 +52,29 @@ public class SkyAPI
     	 * @see https://www.skybiometry.com/Documentation#faces/detect
     	 * @see https://www.skybiometry.com/Documentation#faces/recognize
     	 */
-    	Photo photo = faceClient.recognize(URL_WITH_FACES, "all@" + NAMESPACE).get(0);
-    	
-    	int sum = 0;
-    	int numface = 0;
-    	for (Face face : photo.getFaces())
-    	{
-    		sum += face.getFaceConfidence();
-    		++numface;
-    		/*System.out.println("-------------------------------");
-    		System.out.println(face.getGuesses());
-    		System.out.println(face.getRectangle());*/
-    	}
-    	return sum/numface;
+		try
+		{
+	    	Photo photo = faceClient.recognize(URLPic, "all@" + NAMESPACE).get(0);
+	    	
+	    	int sum = 0;
+	    	int numface = 0;
+	    	logger.fine("------------------------------------------------");
+	    	for (Face face : photo.getFaces())
+	    	{
+	    		sum += face.getFaceConfidence();
+	    		++numface;
+	    		logger.fine("-----------------------"+sum+"-------------------------");
+	    		logger.fine("-----------------------"+numface+"-------------------------");
+	    		/*System.out.println("-------------------------------");
+	    		System.out.println(face.getGuesses());
+	    		System.out.println(face.getRectangle());*/
+	    	}
+	    	logger.fine("------------------------------------------------");
+	    	return sum/numface;
+		}
+		catch(Exception e)
+		{
+			return 0;
+		}
 	}
 }

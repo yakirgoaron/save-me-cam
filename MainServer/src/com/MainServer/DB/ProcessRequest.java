@@ -38,11 +38,11 @@ public class ProcessRequest
 		 return isSuccess;
 	}
 	
-	public boolean SaveImageProcToDB(Long CameraId,int detection , Long ImageId)
+	public DetectImage SaveImageProcToDB(Long CameraId,int detection , Long ImageId)
 	{
 		boolean isSuccess = true;
 		DetectImage img = new DetectImage();
-		
+		DetectImage res = null;
 		img.setuserID(CameraId);
 		img.setimageSaverId(ImageId);
 		img.seDetection(detection);
@@ -51,18 +51,18 @@ public class ProcessRequest
 		PersistenceManager pm =  PMF.get().getPersistenceManager();
 		 try 
 		 {
-            pm.makePersistent(img);
+			 res = pm.makePersistent(img);
          }
 		 catch(Exception e)
 		 {
-			 isSuccess = false;
+			 res = null;
 		 }
 		 finally 
 		 {
             pm.close();
          }
 		 
-		 return isSuccess;
+		 return res;
 	}
 	
 	public boolean SaveEventsToDB(Long CameraId,String Message ,Long imageId)
@@ -213,10 +213,11 @@ public class ProcessRequest
 	    // a given title
 	    Query query = pm.newQuery(Events.class, "UserID == " + user);
 	    //query.declareParameters("String numberParam");
-	    query.setRange(0, 1);
+	    //query.setRange(0, 1);
 
 	    try {
 	        List<Events> results = (List<Events>) query.execute(user);
+	        results.size();
 	        if (results.iterator().hasNext()) {
 	            // If the results list is non-empty, return the first (and only)
 	            // result
@@ -236,12 +237,13 @@ public class ProcessRequest
 		// Search for any Movie object with the passed-in title; limit the number
 	    // of results returned to 1 since there should be at most one movie with
 	    // a given title
-	    Query query = pm.newQuery(Events.class, "CameraID == " + CameraID);
-	    //query.declareParameters("String numberParam");
-	    query.setRange(0, 1);
+	    Query query = pm.newQuery(Users.class, "CameraID == numberParam");
+	    query.declareParameters("Long numberParam");
+	    //query.setRange(0, 1);
 
 	    try {
 	        List<Users> results = (List<Users>) query.execute(CameraID);
+	        results.size();
 	        if (results.iterator().hasNext()) {
 	            // If the results list is non-empty, return the first (and only)
 	            // result
