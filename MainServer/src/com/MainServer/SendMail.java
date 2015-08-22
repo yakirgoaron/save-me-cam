@@ -24,40 +24,34 @@ public class SendMail {
         Session session = Session.getDefaultInstance(props, null);
 
         String msgBody = Body;
-        logger.fine("--------------------1----------------------------");
+       
         try {
             Message msg = new MimeMessage(session);
             
 			msg.setFrom(new InternetAddress("admin@uplifted-plate-89814.appspotmail.com", "Save Me CAM mail"));
-			logger.fine("--------------------2 "+UsersMail.size()+"----------------------------");	
 			for (Iterator mail = UsersMail.iterator(); mail.hasNext();)
 		    {
 				Users data = (Users) mail.next();
 				msg.addRecipient(Message.RecipientType.TO,
                              new InternetAddress(data.getMail(), data.getName()));
 		    }
-			logger.fine("--------------------3----------------------------");
             msg.setSubject(Title);
             msg.setText(msgBody);
             Transport.send(msg);
 
         } catch (AddressException e) {
-        	logger.fine("--------------------4----------------------------");
         	logger.fine(e.toString());
         	
             // ...
         } catch (MessagingException e) {
-        	logger.fine("--------------------5----------------------------");
         	logger.fine(e.toString());
             // ...
         }
         catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-        	logger.fine("--------------------6----------------------------");
         	logger.fine(e.toString());
 			e.printStackTrace();
 		}
-        logger.fine("--------------------7----------------------------");
 	}
 
 }

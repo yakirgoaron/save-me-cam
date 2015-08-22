@@ -59,6 +59,31 @@ public class GetUsersForCamera {
 	    }
 	    return eventUsers;
 	}
+	
+	@ApiMethod(name = "deleteuser", httpMethod = HttpMethod.POST)
+	public void DeleteUser(@Named("CameraName") String camName,@Named("UserName") String UserName) throws Exception
+	{
+	    ProcessRequest check = new ProcessRequest();
+	    Camera user = check.getUserCmaeraByName(camName);
+	    if(user != null)
+	    {
+		    List<Users> usersDB = check.getUsersByCamera(user.getId());
+		    if(usersDB != null)
+		    {
+			    for (Iterator iterator = usersDB.iterator(); iterator.hasNext();)
+			    {
+			    	if(iterator != null)
+			    	{
+			    		Users usr = (Users) iterator.next();
+			    		if(usr.getName().compareToIgnoreCase(UserName) == 0)
+			    		{
+			    			check.DeleteUserByCamera(usr);
+			    		}
+			    	}
+				}
+		    }
+	    }
+	}
 	public class User
 	{
 		public String Name;

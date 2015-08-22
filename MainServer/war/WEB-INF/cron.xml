@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <!-- cron>
+    <url>/timeservlet</url>
+    <description>take a pic and call the services</description>
+    <schedule>every 2 minutes</schedule>
+  </cron-->
+</cronentries>

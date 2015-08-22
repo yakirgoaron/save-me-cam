@@ -256,4 +256,18 @@ public class ProcessRequest
 
 	    return null;
 	}
+	
+	public void DeleteUserByCamera(Users user)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+
+	    try {
+	    	pm.deletePersistent(user);
+
+	    } finally {
+
+	        pm.close();
+	    }
+	}
 }
