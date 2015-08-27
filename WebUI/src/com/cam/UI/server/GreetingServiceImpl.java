@@ -64,7 +64,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	
-	public String createuser(String name, String phone, String mail) throws IllegalArgumentException {
+	public String createUser(String name, String phone, String mail) throws IllegalArgumentException {
 		String a = "Fail";
 		logger.fine("start 1");
 		// Verify that the input is valid. 
@@ -87,7 +87,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		try {
 			
 			quote.createuser(this.username, name, mail, phone).execute();
-			a = "Added User!";
+			a = "User Added successfully!";
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -95,9 +95,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			b += e.getLocalizedMessage();
 			a = "ERROR - User Name or Password is incorrect";
 		}
-		return (a); /*"Hello, " + b + "!<br><br>I am running " + serverInfo
-				+ ".<br><br>It looks like -- "+a+" --  you are using:<br>" + userAgent;*/
+		return (a); 
 	}
+	
 	public List<EventsForUserLocal> GetEventsForUser()
 	{
 		Query.Builder builder = new Query.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
@@ -106,15 +106,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	    try {
 			EventsForUserCollection events = service.queryevents(this.username).execute();
 			List<EventsForUser> eventsforusers = events.getItems();
-			for (EventsForUser event:eventsforusers)
+			
+			if (eventsforusers != null) 
 			{
-				EventsForUserLocal temp = new EventsForUserLocal();
-				temp.date = event.getDate().toString();
-				temp.eventtype = event.getEventtype();
-				temp.message = event.getMessage();
-				temp.uRL = event.getURL();
-				temp.confidance = event.getConfidance();
-				localArray.add(temp);
+				for (EventsForUser event:eventsforusers)
+				{
+					EventsForUserLocal temp = new EventsForUserLocal();
+					temp.date = event.getDate().toString();
+					temp.eventtype = event.getEventtype();
+					temp.message = event.getMessage();
+					temp.uRL = event.getURL();
+					temp.confidance = event.getConfidance();
+					localArray.add(temp);
+				}
 			}
 			return localArray;
 
@@ -127,17 +131,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	
 	public List<UsersForCameraLocal> GetUsersForCamera()
 	{
-		Query.Builder builder = new Query.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
-	    Query service = builder.build();
-	    List<UsersForCameraLocal> localArray = new ArrayList<EventsForUserLocal>();
+		Users.Builder builder = new Users.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+	    Users service = builder.build();
+	    List<UsersForCameraLocal> localArray = new ArrayList<UsersForCameraLocal>();
 	    try {
-			UsersForCameraCollection users = service.queryevents(this.username).execute();
-			List<UsersForCamera> usersforcamera = users.getItems();
-			for (UsersForCamera user:usersforcamera)
+			UserCollection users = service.getusers(this.username).execute();
+
+			List<User> usersforcamera = users.getItems();
+			for (User user:usersforcamera)
 			{
 				UsersForCameraLocal temp = new UsersForCameraLocal();
 				temp.name = user.getName();
-				temp.phone = user.getPone();
+				temp.phone = user.getNumber();
 				temp.mail = user.getMail();
 				localArray.add(temp);
 			}
@@ -156,6 +161,29 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	 * @param html the html string to escape
 	 * @return the escaped string
 	 */
+	
+	public String DeleteUser(String user)
+	{
+		String a = "Fail";
+		String b = "OK";
+		// Verify that the input is valid. 
+
+		Users.Builder builder = new Users.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+	    Users service = builder.build();
+	    
+	    user = escapeHtml(user);
+	   
+	    try {
+			service.deleteuser(this.username, user).execute();
+			a = "User Deleted successfully!";			
+		} catch (IOException e) {
+			b = e.getMessage() + "<br>";
+			b += e.getLocalizedMessage();
+			a = "ERROR - problem deleting user";
+		}
+	    
+	    return (a);
+	}
 	private String escapeHtml(String html) {
 		if (html == null) {
 			return null;

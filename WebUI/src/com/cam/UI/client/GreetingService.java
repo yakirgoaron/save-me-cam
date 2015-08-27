@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cam.UI.server.EventsForUserCollection;
 import com.cam.UI.shared.EventsForUserLocal;
+import com.cam.UI.shared.UsersForCameraLocal;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -15,6 +16,7 @@ public interface GreetingService extends RemoteService {
 	String greetServer(String username, String password) throws IllegalArgumentException;
 	List<EventsForUserLocal> GetEventsForUser();
 	List<UsersForCameraLocal> GetUsersForCamera();
-	void createUser(String cameraname, String name, String phone, String mail);
+	String createUser(String name, String phone, String mail);
+	String DeleteUser(String username);
 	
 }

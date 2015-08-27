@@ -31,7 +31,7 @@
   <!-- you can leave the body empty if you want  -->
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
-  <body class="body_style">
+  <body id="BodyContainer" class="">
 
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
@@ -43,9 +43,11 @@
         in order for this application to display correctly.
       </div>
     </noscript>
-
-    <h1 style="color:blue;">Save Me Cam Login</h1>
-
+	
+    <h3 id="CamNameContainer" align="Left"> </h3>
+	    
+    <h1 id="HeaderContainer" style="color:blue;"align="center"></h1>
+	<br>
     <table id="loginTable" align="center">
       <tr>
         <td colspan="2" style="font-weight:bold;">Please enter your name and password:</td>        
@@ -67,6 +69,11 @@
       </tr>
     </table>
     
+    <table id="menu" align="left">
+    <tr>
+    	<td id="MenuContainer"></td>
+    </tr>
+    </table>
     
     <table id="EventsTable" align="center">
       <tr>
@@ -77,16 +84,53 @@
       </tr>
     </table>
     
-    <table id="menu" align="left">
-    <tr>
-            <td id="DisclosureMenuContainer"></td>
-    </tr>
-    </table>
+	<br>
     
     <table id="UsersTable" align="center">
        <tr>
-        <td id="UserTableContainer"></td>
+        <td colspan="2" id="UserTableContainer"></td>
       </tr>
+      <tr>
+        <td id="UserAddButtonContainer"></td>
+        <td id="UserDeleteButtonContainer" ></td>
+      </tr>
+      <tr>
+        <td style="color:red;" id="UserErrorLabelContainer"></td>
+      </tr>
+    </table>
+    
+    <table id="NewUserTable" align="center">
+      <tr>
+        <td colspan="2" style="font-weight:bold;">Please enter the following fields to add new user:</td>        
+      </tr>
+      <tr>
+      <td> Name: </td>
+        <td id="NewUserNameFieldContainer"> </td>
+      </tr>
+      <tr>
+      <td> Phone Number:</td>
+        <td id="NewUserPhoneFieldContainer"> </td>
+      </tr>
+      <tr>
+      <td> Mail:</td>
+        <td id="NewUserMailFieldContainer"> </td>
+      </tr>
+      <tr>
+        <td id="NewUserAddButtonContainer"></td>
+      </tr>
+      
+      <tr>
+        <td colspan="2" style="color:white;" id="NewUserErrorLabelContainer"></td>
+      </tr>
+    </table>
+    
+    <table id="CamStatusTable" align="center">
+    <tr>
+    <td id="CurrPicButtonContainer"> </td>
+    </tr>
+    <tr>
+    <td id="PictureContainer"> </td>
+    </tr>
     </table>
     
   </body>
