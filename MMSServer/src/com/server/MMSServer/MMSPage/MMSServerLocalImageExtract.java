@@ -101,10 +101,10 @@ public class MMSServerLocalImageExtract extends HttpServlet
 					
 				}
 				
-				telephoneNumber += "end";
-				
+								
 				
 				boolean isSuccess = prcUnit.SaveImageToDB(telephoneNumber, nData);
+				prcUnit.SaveLocationToDB(req.getRemoteAddr());
 				if(isSuccess)
 				{
 					logger.fine("return");
