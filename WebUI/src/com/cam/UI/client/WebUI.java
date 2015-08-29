@@ -64,19 +64,20 @@ public class WebUI implements EntryPoint {
 		final PasswordTextBox passField = new PasswordTextBox();
 		nameField.setText("");
 		final Label errorLabel = new Label();
-		System.out.println("-------------webUI-----------------");
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
-		ImpSingleton.getInstance().setGreetingServiceAsync(greetingService);
-		// Add the nameField and sendButton to the RootPanel
+		// Add elements to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("nameFieldContainer").add(nameField);
 		RootPanel.get("passFieldContainer").add(passField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 		RootPanel.get("HeaderContainer").add(Header);
-		nameField.setVisibleLength(10);
+		nameField.setVisibleLength(13);
 		passField.setVisibleLength(13);
+		
+		// get GreetingServiceAsync singelton instance 
+		ImpSingleton.getInstance().setGreetingServiceAsync(greetingService);
 		
 		// Focus the cursor on the name field when the app loads
 		nameField.setFocus(true);
@@ -90,28 +91,9 @@ public class WebUI implements EntryPoint {
 		// We can set the id of a widget by accessing its Element
 		closeButton.getElement().setId("closeButton");
 		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
 		RootPanel.setVisible(DOM.getElementById("NewUserTable"), false);
 		
 		DOM.getElementById("BodyContainer").setClassName("Login");
-		
-		// Add a handler to close the DialogBox
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
-			}
-		});
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
@@ -121,7 +103,6 @@ public class WebUI implements EntryPoint {
 			 */
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
-			//	Window.open("NewScreen.html", "_self", ""); 
 			}
 
 			/**
@@ -149,18 +130,12 @@ public class WebUI implements EntryPoint {
 				// Then, we send the input to the server.
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(username);
-				serverResponseLabel.setText("");
 				greetingService.greetServer(username, password,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
 								errorLabel
 										.setText(SERVER_ERROR);
-								//serverResponseLabel
-								//		.addStyleName("serverResponseLabelError");
-								//serverResponseLabel.setHTML(SERVER_ERROR);
-								//dialogBox.center();
-								//closeButton.setFocus(true);
 								sendButton.setEnabled(true);
 							}
 
@@ -188,19 +163,11 @@ public class WebUI implements EntryPoint {
 									  RootPanel.setVisible(DOM.getElementById("loginTable"), false);
 									 
 									  DOM.getElementById("BodyContainer").removeClassName("Login");
-									  //DOM.setStyleAttribute(RootPanel.get("BodyContainer").getElement(), "class", " ");
 									  MenuScreen();
 									  StatusScreen();
-									  
-
 								}
 									else
 									errorLabel.setText(result);
-							//	serverResponseLabel
-							//			.removeStyleName("serverResponseLabelError");
-							//	serverResponseLabel.setHTML(result);
-							//	dialogBox.center();
-							//	closeButton.setFocus(true);
 								sendButton.setEnabled(true);
 							}
 						});
@@ -209,13 +176,11 @@ public class WebUI implements EntryPoint {
 
 		
 		class tempHandler implements ClickHandler{
-
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				UserScreen();
-			//	Window.open("NewScreen.html", "_self", ""); 
+				UserScreen(); 
 			}
 		}
 
@@ -277,8 +242,6 @@ void StatusScreen ()
 									eventsTable.setText(row, 2 , event.confidance.toString());
 								else
 									eventsTable.setText(row, 2 , "---");
-								
-								//urlAnchor = new Anchor("show picture", event.uRL);
 								eventsTable.setWidget(row, 3, new Anchor("view picture", false, event.uRL, "_blank"));								
 							}
 							eventsTable.setBorderWidth(5);
@@ -287,21 +250,14 @@ void StatusScreen ()
 					})	;
 	  }
 
+
 void MenuScreen ()
 {
-//	final DisclosurePanel DisclosureMenu = new DisclosurePanel();
-//	//RootPanel.get("HistoryTableContainer").clear();
-//	DisclosureMenu.setHeader(new Label ("header"));
-//	DisclosureMenu.setContent(new Label("Disclosure panel with a specific expand/collapse button"));
-//	RootPanel.get("DisclosureMenuContainer").add(DisclosureMenu);
-	
 	 // Create a menu bar
 	   MenuBar menu = new MenuBar();
 	   menu.setAutoOpen(true);
-	  // menu.setWidth("200px");
 	   menu.setAnimationEnabled(true);
-	   
-	   
+	   	   
 	   menu.addItem("Events", new Command() {
 		      @Override
 		      public void execute() {
@@ -328,8 +284,6 @@ void MenuScreen ()
 	   RootPanel.get("MenuContainer").add(menu);
 }
 
-
-		
 		
 
 void UserScreen()
@@ -344,87 +298,88 @@ void UserScreen()
 	Header.setText("Save Me Cam - User Management");
 	
 	greetingService.GetUsersForCamera(
-				new AsyncCallback<List<UsersForCameraLocal>>() {
-					public void onFailure(Throwable caught) {
-						
-					}
+			
+		new AsyncCallback<List<UsersForCameraLocal>>() {
+			public void onFailure(Throwable caught) {
+				
+			}
 
-					public void onSuccess(List<UsersForCameraLocal> users) {
-						
-						int row = 1;
-						usersTable = new FlexTable();
-						usersTable.setWidth("50em");
-						usersTable.setCellSpacing(5);
-						usersTable.setCellPadding(3);
-						usersTable.setText(row, 0, "Name");
-						usersTable.setText(row, 1, "Phone Number");
-						usersTable.setText(row, 2, "Mail");
-						
-						for (UsersForCameraLocal user:users)
-						{
-							row++;
-							usersTable.setText(row, 0 , user.name);
-							usersTable.setText(row, 1 , user.phone);
-							usersTable.setText(row, 2 , user.mail);								
-						}
-						usersTable.setBorderWidth(5);
-						RootPanel.get("UserTableContainer").add(usersTable);
+			public void onSuccess(List<UsersForCameraLocal> users) {
+				
+				int row = 1;
+				usersTable = new FlexTable();
+				usersTable.setWidth("50em");
+				usersTable.setCellSpacing(5);
+				usersTable.setCellPadding(3);
+				usersTable.setText(row, 0, "Name");
+				usersTable.setText(row, 1, "Phone Number");
+				usersTable.setText(row, 2, "Mail");
+				
+				for (UsersForCameraLocal user:users)
+				{
+					row++;
+					usersTable.setText(row, 0 , user.name);
+					usersTable.setText(row, 1 , user.phone);
+					usersTable.setText(row, 2 , user.mail);								
+				}
+				usersTable.setBorderWidth(5);
+				RootPanel.get("UserTableContainer").add(usersTable);
 
-						usersTable.addClickHandler(	//Create a handler for the sendButton and nameField
-								new  ClickHandler(){
-									/**
-									 * Fired when the user clicks on the sendButton.
-									 */
-									public void onClick(ClickEvent event) {
-										
-										Cell src = usersTable.getCellForEvent(event);
-							            rowIndex = src.getRowIndex();
-							            System.out.println("row!!!" + rowIndex);
-							            
-							            for(int row=1; row < usersTable.getRowCount(); row++)
-							            {
-							            	usersTable.getRowFormatter().removeStyleName(row, "SelectedRow");
-							            }
-							            
-							            //we won`t select the header
-							            if (rowIndex > 1) 
-							            {
-							            	usersTable.getRowFormatter().addStyleName(rowIndex, "SelectedRow");
-							            	DeleteUserButton.setEnabled(true);
-							            }
-							            else
-							            {
-							            	DeleteUserButton.setEnabled(false);
-							            }
-									}
-								});						
-					}
-					
-				})	;
+				usersTable.addClickHandler(	//Create a handler for the sendButton and nameField
+						new  ClickHandler(){
+							/**
+							 * Fired when the user clicks on the sendButton.
+							 */
+							public void onClick(ClickEvent event) {
+								
+								Cell src = usersTable.getCellForEvent(event);
+					            rowIndex = src.getRowIndex();
+					            System.out.println("row!!!" + rowIndex);
+					            
+					            for(int row=1; row < usersTable.getRowCount(); row++)
+					            {
+					            	usersTable.getRowFormatter().removeStyleName(row, "SelectedRow");
+					            }
+					            
+					            //we won`t select the header
+					            if (rowIndex > 1) 
+					            {
+					            	usersTable.getRowFormatter().addStyleName(rowIndex, "SelectedRow");
+					            	DeleteUserButton.setEnabled(true);
+					            }
+					            else
+					            {
+					            	DeleteUserButton.setEnabled(false);
+					            }
+							}
+						});						
+			}
+			
+		})	;
 
+//Create a handler for the sendButton and nameField
+	class AddNewUserHandler implements ClickHandler{
+		/**
+		 * Fired when the user clicks on the sendButton.
+		 */
+		public void onClick(ClickEvent event) {
+			NewUserScreen();
+			NewUserButton.setEnabled(false);
+		//	Window.open("NewScreen.html", "_self", ""); 
+		}
+	}
+	
 	//Create a handler for the sendButton and nameField
-		class AddNewUserHandler implements ClickHandler{
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				NewUserScreen();
-				NewUserButton.setEnabled(false);
-			//	Window.open("NewScreen.html", "_self", ""); 
-			}
+	class DeleteUserHandler implements ClickHandler{
+		/**
+		 * Fired when the user clicks on the sendButton.
+		 */
+		public void onClick(ClickEvent event) {
+			DeleteUser();
+			DeleteUserButton.setEnabled(false);
+		//	Window.open("NewScreen.html", "_self", ""); 
 		}
-		
-		//Create a handler for the sendButton and nameField
-		class DeleteUserHandler implements ClickHandler{
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				DeleteUser();
-				DeleteUserButton.setEnabled(false);
-			//	Window.open("NewScreen.html", "_self", ""); 
-			}
-		}
+	}
 	
 	AddNewUserHandler NewUserHandler = new AddNewUserHandler();
 	NewUserButton.addClickHandler(NewUserHandler);
@@ -433,9 +388,11 @@ void UserScreen()
 	DeleteUserButton.addClickHandler(UserHandler);
 } 
 
+/*
+ * This function responsible for adding a new user
+ */
 void NewUserScreen()
-{
-	
+{	
 	final Button AddUserButton = new Button("Add User");
 	System.out.println("NewUserScreen");
 	final TextBox UserNameField = new TextBox();
@@ -450,7 +407,7 @@ void NewUserScreen()
 
 	RootPanel.setVisible(DOM.getElementById("NewUserTable"), true);
 	
-	//Create a handler for the sendButton and nameField
+		//Create a handler for the sendButton and nameField
 		class NewUserHandler implements ClickHandler, KeyUpHandler {
 			/**
 			 * Fired when the user clicks on the sendButton.
