@@ -26,12 +26,16 @@ body {
   background-image: url("background-black.jpg")!important;
     background-repeat: no-repeat!important;
   background-position: center top!important;
+  background-size:100%!important;
+  font-size: medium!important;
 }
 
 .Login{
 	  background-image: url("baby-new.jpg")!important;
   background-repeat: no-repeat!important;
   background-position: center top!important;
+  background-size:75%!important;
+  
 }
 article,
 aside,
@@ -225,7 +229,7 @@ html {
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: large;
   line-height: 1.42857143;
   color: #333333;
   background-color: #ffffff;
@@ -235,7 +239,7 @@ button,
 select,
 textarea {
   font-family: inherit;
-  font-size: inherit;
+  font-size: medium;
   line-height: inherit;
 }
 a {
@@ -1545,19 +1549,19 @@ fieldset[disabled] .btn-link:focus {
 }
 .btn-lg {
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: medium;
   line-height: 1.3333333;
   border-radius: 6px;
 }
 .btn-sm {
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: medium;
   line-height: 1.5;
   border-radius: 3px;
 }
 .btn-xs {
   padding: 1px 5px;
-  font-size: 12px;
+  font-size: medium;
   line-height: 1.5;
   border-radius: 3px;
 }
@@ -1576,7 +1580,7 @@ input[type="button"].btn-block {
 .label {
   display: inline;
   padding: .2em .6em .3em;
-  font-size: 75%;
+  font-size: medium;
   font-weight: bold;
   line-height: 1;
   color: #ffffff;

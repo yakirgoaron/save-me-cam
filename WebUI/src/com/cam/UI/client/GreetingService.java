@@ -18,5 +18,6 @@ public interface GreetingService extends RemoteService {
 	List<UsersForCameraLocal> GetUsersForCamera();
 	String createUser(String name, String phone, String mail);
 	String DeleteUser(String username);
+	String TakeImage();
 	
 }

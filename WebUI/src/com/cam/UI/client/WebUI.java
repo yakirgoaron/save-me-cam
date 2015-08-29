@@ -245,10 +245,9 @@ public class WebUI implements EntryPoint {
 
 void StatusScreen ()
 {	
-	RootPanel.get("CurrPicButtonContainer").clear();
+	ClearScreen();
+	
 	Header.setText("Save Me Cam - Events");
-	RootPanel.get("HistoryTableContainer").clear();
-	RootPanel.get("UserTableContainer").clear();
 		  GreetingServiceAsync greetingService = ImpSingleton.getInstance().getGreetingServiceAsync();
 		  greetingService.GetEventsForUser(
 					new AsyncCallback<List<EventsForUserLocal>>() {
@@ -263,10 +262,10 @@ void StatusScreen ()
 							eventsTable.setCellSpacing(5);
 							eventsTable.setCellPadding(3);
 							eventsTable.setText(0, 0, "Date");
-							eventsTable.setText(0, 1, "Event");
-							eventsTable.setText(0, 2, "Message");
-							eventsTable.setText(0, 3, "Confidance(%)");
-							eventsTable.setText(0, 4, "picture");
+							//eventsTable.setText(0, 1, "Event");
+							eventsTable.setText(0, 1, "Message");
+							eventsTable.setText(0, 2, "Confidance(%)");
+							eventsTable.setText(0, 3, "picture");
 							
 							eventsTable.getRowFormatter().setStyleName(
 						            0,"FlexTable-Header");
@@ -275,16 +274,16 @@ void StatusScreen ()
 							{
 								row++;
 								eventsTable.setText(row, 0 , event.date.toString());
-								eventsTable.setText(row, 1 , event.eventtype);
-								eventsTable.setText(row, 2 , event.message);
+								//eventsTable.setText(row, 1 , event.eventtype);
+								eventsTable.setText(row, 1 , event.message);
 								
 								if (event.confidance != null)
-									eventsTable.setText(row, 3 , event.confidance.toString());
+									eventsTable.setText(row, 2 , event.confidance.toString());
 								else
-									eventsTable.setText(row, 3 , "---");
+									eventsTable.setText(row, 2 , "---");
 								
 								//urlAnchor = new Anchor("show picture", event.uRL);
-								eventsTable.setWidget(row, 4, new Anchor("view picture", false, event.uRL, "_blank"));								
+								eventsTable.setWidget(row, 3, new Anchor("view picture", false, event.uRL, "_blank"));								
 							}
 							eventsTable.setBorderWidth(5);
 							RootPanel.get("HistoryTableContainer").add(eventsTable);
@@ -339,13 +338,10 @@ void MenuScreen ()
 
 void UserScreen()
 {
+	ClearScreen();
+	
 	final Button NewUserButton = new Button("Add New User");	
 	final Button DeleteUserButton = new Button("Delete Selected User");	
-	RootPanel.get("UserAddButtonContainer").clear();
-	RootPanel.get("UserDeleteButtonContainer").clear();
-	RootPanel.get("HistoryTableContainer").clear();
-	RootPanel.get("CurrPicButtonContainer").clear();
-	RootPanel.get("UserTableContainer").clear();
 	RootPanel.get("UserAddButtonContainer").add(NewUserButton);	
 	RootPanel.get("UserDeleteButtonContainer").add(DeleteUserButton);
 	DeleteUserButton.setEnabled(false);
@@ -443,7 +439,9 @@ void UserScreen()
 
 void NewUserScreen()
 {
+	
 	final Button AddUserButton = new Button("Add User");
+	System.out.println("NewUserScreen");
 	final TextBox UserNameField = new TextBox();
 	final TextBox UserPhoneField = new TextBox();
 	final TextBox UserMailField = new TextBox();
@@ -539,11 +537,7 @@ void DeleteUser()
 
 void CamStatusScreen()
 {
-	RootPanel.get("UserAddButtonContainer").clear();
-	RootPanel.get("UserDeleteButtonContainer").clear();
-	RootPanel.get("HistoryTableContainer").clear();
-	RootPanel.get("UserTableContainer").clear();
-	RootPanel.get("CurrPicButtonContainer").clear();
+	ClearScreen();
 	
 	final Button CurrentPic = new Button("Show current situation image from car");
 	RootPanel.get("CurrPicButtonContainer").add(CurrentPic);
@@ -553,24 +547,54 @@ void CamStatusScreen()
 		/**
 		 * Fired when the user clicks on the sendButton.
 		 */
-		public void onClick(ClickEvent event) {
-				Image image = new Image();
+		public void onClick(ClickEvent event) {			
+				TakeImage();
+		}
+		
+		private void TakeImage()
+		{
+	      
+	      greetingService.TakeImage(
+					new AsyncCallback<String>() {
+						public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
+//							NewUserErrorLabel
+//									.setText(SERVER_ERROR);
+//							AddUserButton.setEnabled(true);
+						}
 
-		      //set image source
-		      image.setUrl("empty-carseats.jpg");
-		      image.setSize("240px", "240px");
-		      // Add image to the root panel.
-		      VerticalPanel panel = new VerticalPanel();
-		      panel.add(image);
+						public void onSuccess(String result) {
+							Image image = new Image();
+							
+							RootPanel.get("PictureContainer").clear();
+					      //set image source
+					      //image.setUrl("empty-carseats.jpg");
+							image.setUrl(result);
+							System.out.println("pic "+ result);
+					      image.setSize("240px", "240px");
+					      // Add image to the root panel.
+					      VerticalPanel panel = new VerticalPanel();
+					      panel.add(image);
 
-		      RootPanel.get("PictureContainer").add(panel);
-
-		//	Window.open("NewScreen.html", "_self", ""); 
+					      RootPanel.get("PictureContainer").add(panel);
+						}
+					});
 		}
 	}
 	
 	PicHandler temph = new PicHandler();
 	CurrentPic.addClickHandler(temph);
 	
+}
+
+public void ClearScreen()
+{
+	RootPanel.get("UserAddButtonContainer").clear();
+	RootPanel.get("UserDeleteButtonContainer").clear();
+	RootPanel.get("HistoryTableContainer").clear();
+	RootPanel.get("UserTableContainer").clear();
+	RootPanel.get("CurrPicButtonContainer").clear();
+	RootPanel.setVisible(DOM.getElementById("NewUserTable"), false);
+	RootPanel.get("PictureContainer").clear();
 }
 }

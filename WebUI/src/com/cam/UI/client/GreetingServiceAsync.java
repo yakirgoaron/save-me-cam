@@ -17,4 +17,5 @@ public interface GreetingServiceAsync {
 	 void GetUsersForCamera(AsyncCallback<List<UsersForCameraLocal>> callback);
 	 void createUser(String name, String phone, String mail, AsyncCallback<String> callback);
 	 void DeleteUser(String username, AsyncCallback<String> callback);
+	 void TakeImage(AsyncCallback<String> callback);
 }

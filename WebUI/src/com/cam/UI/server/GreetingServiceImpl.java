@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.cam.UI.client.GreetingService;
+import com.cam.UI.server.Imagecam.Takeimage;
 import com.cam.UI.shared.EventsForUserLocal;
 import com.cam.UI.shared.FieldVerifier;
 import com.cam.UI.shared.UsersForCameraLocal;
@@ -190,5 +191,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
+	}
+	
+	public String TakeImage()
+	{
+		String a = "Fail";
+		String b = "OK";
+		// Verify that the input is valid. 
+
+		Imagecam.Builder builder = new Imagecam.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+	    Imagecam service = builder.build();
+
+	    try {
+			TempString img = service.takeimage(this.username).execute();
+			return (img.toString());			
+		} catch (IOException e) {
+			b = e.getMessage() + "<br>";
+			b += e.getLocalizedMessage();
+			a = "ERROR - problem at taking picture";
+		}
+	    
+	    return (a);
 	}
 }
