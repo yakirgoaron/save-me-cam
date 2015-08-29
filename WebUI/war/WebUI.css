@@ -2114,3 +2114,7 @@ button.gwt-Button {
 	  .SelectedRow{
   background-color: #afd3e9;
   }
+  
+  .CurrPicButtonClass{
+  font-size: 15px!important;
+  }

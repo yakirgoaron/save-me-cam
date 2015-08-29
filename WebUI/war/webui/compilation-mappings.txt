@@ -1,36 +1,16 @@
-<<<<<<< HEAD
-2F3A7191C11BF4EC4A62643D133C554D.cache.js
+03BA08292699AC837DC6B76CCC2DDF5F.cache.js
+user.agent gecko1_8
+
+070AC6EA4EA1838A0607F949CE0355F7.cache.js
 user.agent safari
-=======
-500C31CC108A5FBC4CB72F50DAA9EC4C.cache.js
-user.agent gecko1_8
->>>>>>> branch 'master' of https://github.com/yakirgoaron/save-me-cam
 
-<<<<<<< HEAD
-3F91488BE3CEAEBF5759CAF3C91F1241.cache.js
-user.agent gecko1_8
-
-5DD55380CDC80CF873F5F56F023098DB.cache.js
-=======
-B92FEBD5C887D1035E53FBEB15784A47.cache.js
+A137C0DACC90B0821524705AA886DA12.cache.js
 user.agent ie8
 
-BDC110D2C7CD6E0F1FCDC4F103016C86.cache.js
->>>>>>> branch 'master' of https://github.com/yakirgoaron/save-me-cam
+D75E0026A4D17784C52D3198712548EA.cache.js
+user.agent ie10
+
+FD03BE67F00AFA98354F4DA86C7AE9F3.cache.js
 user.agent ie9
-
-<<<<<<< HEAD
-C8B6BF1466EC837573EE41221828D66A.cache.js
-user.agent ie8
-
-F9F2D56D8C701B0EE99734969A2D1406.cache.js
-user.agent ie10
-=======
-F727C423F01113B1B9F3EEA1B0ED91CB.cache.js
-user.agent ie10
-
-FEADDF4C9733A84378B738D659B81B22.cache.js
-user.agent safari
->>>>>>> branch 'master' of https://github.com/yakirgoaron/save-me-cam
 
 Devmode:devmode.js

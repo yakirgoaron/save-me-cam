@@ -204,11 +204,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	    try {
 			TempString img = service.takeimage(this.username).execute();
-			return (img.toString());			
+			System.out.println(img.getUrl());
+			return (img.getUrl());			
 		} catch (IOException e) {
 			b = e.getMessage() + "<br>";
 			b += e.getLocalizedMessage();
-			a = "ERROR - problem at taking picture";
+			a = "ERROR - problem at taking picture"+b;
 		}
 	    
 	    return (a);

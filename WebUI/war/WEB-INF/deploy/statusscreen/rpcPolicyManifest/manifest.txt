@@ -1,2 +1,0 @@
-# Module statusscreen
-# RPC service class, partial path of RPC policy file

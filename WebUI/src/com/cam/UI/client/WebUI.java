@@ -14,27 +14,23 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.ui.FlexTable;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -539,6 +535,7 @@ void CamStatusScreen()
 {
 	ClearScreen();
 	
+	Header.setText("Save Me Cam - Camera Status");
 	final Button CurrentPic = new Button("Show current situation image from car");
 	RootPanel.get("CurrPicButtonContainer").add(CurrentPic);
 	
@@ -568,10 +565,10 @@ void CamStatusScreen()
 							
 							RootPanel.get("PictureContainer").clear();
 					      //set image source
-					      //image.setUrl("empty-carseats.jpg");
-							image.setUrl(result);
+					      image.setUrl("empty-carseats.jpg");
+							//image.setUrl(result);
 							System.out.println("pic "+ result);
-					      image.setSize("240px", "240px");
+					      image.setSize("500px", "500px");
 					      // Add image to the root panel.
 					      VerticalPanel panel = new VerticalPanel();
 					      panel.add(image);
