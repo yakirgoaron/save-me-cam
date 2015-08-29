@@ -5,6 +5,7 @@ import javax.jdo.Query;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.json.gson.GsonFactory;
 
+import java.util.Date;
 import java.util.List;
 public class ProcessRequest 
 {
@@ -42,28 +43,28 @@ public class ProcessRequest
 	}
 	
 	
-	public ImageSaver getImageSaverByTitle(String title)
+	public boolean SaveLocationToDB(String IpLocation)
 	{
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		// Search for any Movie object with the passed-in title; limit the number
-	    // of results returned to 1 since there should be at most one movie with
-	    // a given title
-	    Query query = pm.newQuery(ImageSaver.class, "title == titleParam");
-	    query.declareParameters("String titleParam");
-	    query.setRange(0, 1);
-
-	    try {
-	        List<ImageSaver> results = (List<ImageSaver>) query.execute(title);
-	        if (results.iterator().hasNext()) {
-	            // If the results list is non-empty, return the first (and only)
-	            // result
-	            return results.get(0);
-	        }
-	    } finally {
-	        query.closeAll();
-	        pm.close();
-	    }
-
-	    return null;
+		boolean isSuccess = true;
+		LocationSaver locSave = new LocationSaver();
+		
+		Date date = new Date();
+		locSave.setDetectedDate(date);
+		locSave.setIpLocation(IpLocation);
+		PersistenceManager pm =  PMF.get().getPersistenceManager();
+		 try 
+		 {
+			 pm.makePersistent(locSave);
+         }
+		 catch(Exception e)
+		 {
+			 isSuccess = false;
+		 }
+		 finally 
+		 {
+            pm.close();
+         }
+		 
+		 return isSuccess;
 	}
 }
