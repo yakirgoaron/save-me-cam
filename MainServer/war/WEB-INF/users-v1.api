@@ -24,27 +24,6 @@
     "maxAge" : 0
   },
   "methods" : {
-    "users.getusers" : {
-      "path" : "GetUsers/{userName}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ "868567712595-nq4bf0pn6vm6rq4kd8esmnk0u21c3m9m.apps.googleusercontent.com" ],
-      "clientIds" : [ "868567712595-nq4bf0pn6vm6rq4kd8esmnk0u21c3m9m.apps.googleusercontent.com", "replace this with your Android client ID", "replace this with your iOS client ID" ],
-      "rosyMethod" : "com.MainServer.ClientIO.GetUsersForCamera.GetUsers",
-      "request" : {
-        "parameters" : {
-          "userName" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "users.deleteuser" : {
       "path" : "DeleteUser/{CameraName}/{UserName}",
       "httpMethod" : "POST",
@@ -68,6 +47,27 @@
       },
       "response" : {
         "body" : "empty"
+      }
+    },
+    "users.getusers" : {
+      "path" : "GetUsers/{userName}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ "868567712595-nq4bf0pn6vm6rq4kd8esmnk0u21c3m9m.apps.googleusercontent.com" ],
+      "clientIds" : [ "868567712595-nq4bf0pn6vm6rq4kd8esmnk0u21c3m9m.apps.googleusercontent.com", "replace this with your Android client ID", "replace this with your iOS client ID" ],
+      "rosyMethod" : "com.MainServer.ClientIO.GetUsersForCamera.GetUsers",
+      "request" : {
+        "parameters" : {
+          "userName" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
       }
     }
   },
@@ -102,12 +102,12 @@
       }
     },
     "methods" : {
+      "com.MainServer.ClientIO.GetUsersForCamera.DeleteUser" : {
+      },
       "com.MainServer.ClientIO.GetUsersForCamera.GetUsers" : {
         "response" : {
           "$ref" : "UserCollection"
         }
-      },
-      "com.MainServer.ClientIO.GetUsersForCamera.DeleteUser" : {
       }
     }
   }

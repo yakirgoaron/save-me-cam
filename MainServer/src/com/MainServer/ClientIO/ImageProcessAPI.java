@@ -8,7 +8,8 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.tempuri.*;
+import org.tempuri.OpenAPI;
+import org.tempuri.OpenAPISoap;
 
 import com.MainServer.SendMail;
 import com.MainServer.DB.Camera;
