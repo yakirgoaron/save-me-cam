@@ -1,3 +1,6 @@
+/**
+ * A class for sending mails to users
+ */
 package com.MainServer;
 
 import java.io.UnsupportedEncodingException;
@@ -18,6 +21,10 @@ import com.MainServer.DB.Users;
 
 public class SendMail {
 	private static final Logger logger = Logger.getLogger("SendMail");
+	/* 
+	 * Send mails to users the body and the title is input
+	 * and get the list of users to send the mail 
+	 */
 	public static void SendMailToUsers(String Title,String Body, List<Users> UsersMail)
 	{
 		Properties props = new Properties();
@@ -26,17 +33,21 @@ public class SendMail {
         String msgBody = Body;
        
         try {
+        	// create new message and set the admin user to send it.
+        	// Also make it display to the user as "Save Me CAM mail".
             Message msg = new MimeMessage(session);
-            
 			msg.setFrom(new InternetAddress("admin@uplifted-plate-89814.appspotmail.com", "Save Me CAM mail"));
-			for (Iterator mail = UsersMail.iterator(); mail.hasNext();)
+			// add all the users to send to
+			for (Iterator<Users> mail = UsersMail.iterator(); mail.hasNext();)
 		    {
 				Users data = (Users) mail.next();
 				msg.addRecipient(Message.RecipientType.TO,
                              new InternetAddress(data.getMail(), data.getName()));
 		    }
+			// set title and text.
             msg.setSubject(Title);
             msg.setText(msgBody);
+            // send the mail.
             Transport.send(msg);
 
         } catch (AddressException e) {

@@ -1,3 +1,6 @@
+/**
+ * Auto-generated class
+ */
 package com.github.mhendred.face4j.model;
 
 public class Rect

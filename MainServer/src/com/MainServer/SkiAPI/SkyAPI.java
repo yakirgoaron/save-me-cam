@@ -1,3 +1,6 @@
+/**
+ * SKI biometry API for face detection login and run
+ */
 package com.MainServer.SkiAPI;
 
 import java.util.logging.Logger;
@@ -65,9 +68,7 @@ public class SkyAPI
 	    		++numface;
 	    		logger.fine("-----------------------"+sum+"-------------------------");
 	    		logger.fine("-----------------------"+numface+"-------------------------");
-	    		/*System.out.println("-------------------------------");
-	    		System.out.println(face.getGuesses());
-	    		System.out.println(face.getRectangle());*/
+
 	    	}
 	    	logger.fine("------------------------------------------------");
 	    	return sum/numface;

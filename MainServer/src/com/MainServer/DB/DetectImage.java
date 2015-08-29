@@ -1,7 +1,7 @@
+/**
+ * JDO object for DetectImage
+ */
 package com.MainServer.DB;
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
-import java.util.List;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -9,9 +9,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 /**
- * JDO-annotated model class for storing movie properties; movie's promotional
- * image is stored as a Blob (large byte array) in the image field.
+ * JDO-annotated model class for storing DetectImage properties;
+ * saves an image that was runs from detection
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class DetectImage {
@@ -61,5 +63,4 @@ public class DetectImage {
         this.imageSaverId = imageID;
     }
 
-    //...
 }

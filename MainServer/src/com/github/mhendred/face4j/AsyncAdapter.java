@@ -1,3 +1,6 @@
+/**
+ * Auto-generated class
+ */
 package com.github.mhendred.face4j;
 
 import java.util.List;

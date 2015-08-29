@@ -1,24 +1,20 @@
+/**
+ * Request for DB services
+ */
 package com.MainServer.DB;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
-
-
-import com.google.api.server.spi.config.Named;
-
 import java.util.Date;
 import java.util.List;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 public class ProcessRequest 
 {
+	// Saves image to DB
 	public boolean SaveImageToDB(String strTelephoneNumber,byte[] picData)
 	{
 		boolean isSuccess = true;
 		ImageSaver img = new ImageSaver();
 		
-		if(strTelephoneNumber == "SUCCESS")
-			img.setImageType("SUCCESS");
-		else
-			img.setImageType("Type");
 		img.setImage(picData);
 		img.setTitle(strTelephoneNumber);
 		PersistenceManager pm =  PMF.get().getPersistenceManager();
@@ -37,10 +33,9 @@ public class ProcessRequest
 		 
 		 return isSuccess;
 	}
-	
+	// save an image detection to db and returns the object created
 	public DetectImage SaveImageProcToDB(Long CameraId,int detection , Long ImageId)
 	{
-		boolean isSuccess = true;
 		DetectImage img = new DetectImage();
 		DetectImage res = null;
 		img.setuserID(CameraId);
@@ -65,6 +60,7 @@ public class ProcessRequest
 		 return res;
 	}
 	
+	// save an event to the DB.
 	public boolean SaveEventsToDB(Long CameraId,String Message ,Long imageId)
 	{
 		boolean isSuccess = true;
@@ -93,6 +89,7 @@ public class ProcessRequest
 		 return isSuccess;
 	}
 	
+	// save an user to the DB.
 	public boolean SaveUserToDB(Long CameraId,String Name,String Mail, String Number)
 	{
 		boolean isSuccess = true;
@@ -123,24 +120,20 @@ public class ProcessRequest
 	
 	
 	
-	
+	// Get image save by key
 	public ImageSaver getImageSaverByKey(String key)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		// Search for any Movie object with the passed-in title; limit the number
-	    // of results returned to 1 since there should be at most one movie with
-	    // a given title
-	    //Query query = pm.newQuery(ImageSaver.class, "key == 5695159920492544");
+		// query by key return only 1 result
 		Query query = pm.newQuery(ImageSaver.class, "key == " + key);
-	    //query.declareParameters("String titleParam");
 	    query.setRange(0, 1);
 
 	    try {
 	        List<ImageSaver> results = (List<ImageSaver>) query.execute(key);
+
+            // If the results list is non-empty, return the first (and only)
+            // result
 	        if (results.iterator().hasNext()) {
-	            // If the results list is non-empty, return the first (and only)
-	            // result
 	            return results.get(0);
 	        }
 	    } finally {
@@ -151,22 +144,21 @@ public class ProcessRequest
 	    return null;
 	}
 	
-
+	// Get camera user by the number
 	public Camera getUserCmaeraByName(String number)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		// Search for any Movie object with the passed-in title; limit the number
-	    // of results returned to 1 since there should be at most one movie with
-	    // a given title
+		// query and return only 1 result
 	    Query query = pm.newQuery(Camera.class, "Number == numberParam");
 	    query.declareParameters("String numberParam");
 	    query.setRange(0, 1);
 
 	    try {
 	        List<Camera> results = (List<Camera>) query.execute(number);
+
+            // If the results list is non-empty, return the first (and only)
+            // result
 	        if (results.iterator().hasNext()) {
-	            // If the results list is non-empty, return the first (and only)
-	            // result
 	            return results.get(0);
 	        }
 	    } finally {
@@ -177,22 +169,21 @@ public class ProcessRequest
 	    return null;
 	}
 	
-	
+	// Get detected image by the id
 	public DetectImage getDetectImageByUserAndImage(Long ImageId)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		// Search for any Movie object with the passed-in title; limit the number
-	    // of results returned to 1 since there should be at most one movie with
-	    // a given title
+		//search nly one by the detected image
 	    Query query = pm.newQuery(DetectImage.class, "key == ImageIDParam");
 	    query.declareParameters("Long ImageIDParam");
 	    query.setRange(0, 1);
 
 	    try {
 	        List<DetectImage> results = (List<DetectImage>) query.execute(ImageId);
+	        // If the results list is non-empty, return the first (and only)
+            // result
 	        if (results.iterator().hasNext()) {
-	            // If the results list is non-empty, return the first (and only)
-	            // result
+	            
 	            return results.get(0);
 	        }
 	    } finally {
@@ -204,23 +195,19 @@ public class ProcessRequest
 	}
 	
 	
-	
+	// Get all the events by a user
 	public List<Events> getEventsByUser(Long user)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		// Search for any Movie object with the passed-in title; limit the number
-	    // of results returned to 1 since there should be at most one movie with
-	    // a given title
 	    Query query = pm.newQuery(Events.class, "UserID == " + user);
-	    //query.declareParameters("String numberParam");
-	    //query.setRange(0, 1);
 
 	    try {
 	        List<Events> results = (List<Events>) query.execute(user);
 	        results.size();
+
+            // If the results list is non-empty, return the first (and only)
+            // result
 	        if (results.iterator().hasNext()) {
-	            // If the results list is non-empty, return the first (and only)
-	            // result
 	            return results;
 	        }
 	    } finally {
@@ -230,23 +217,21 @@ public class ProcessRequest
 
 	    return null;
 	}
-	
+	// Get all the users by a camera
 	public List<Users> getUsersByCamera(Long CameraID)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		// Search for any Movie object with the passed-in title; limit the number
-	    // of results returned to 1 since there should be at most one movie with
-	    // a given title
 	    Query query = pm.newQuery(Users.class, "CameraID == numberParam");
 	    query.declareParameters("Long numberParam");
-	    //query.setRange(0, 1);
+
 
 	    try {
 	        List<Users> results = (List<Users>) query.execute(CameraID);
 	        results.size();
+
+            // If the results list is non-empty, return the first (and only)
+            // result
 	        if (results.iterator().hasNext()) {
-	            // If the results list is non-empty, return the first (and only)
-	            // result
 	            return results;
 	        }
 	    } finally {
@@ -257,6 +242,7 @@ public class ProcessRequest
 	    return null;
 	}
 	
+	// delete a user that is connected to a camera
 	public void DeleteUserByCamera(Users user)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -264,16 +250,18 @@ public class ProcessRequest
 		
 		query.setRange(0, 1);
 
-	    try {
+	    try 
+	    {
 	    	 List<Users> results = (List<Users>) query.execute(user.getId().toString());
-	    	 if (results.iterator().hasNext()) {
-		            // If the results list is non-empty, return the first (and only)
-		            // result
+	         // If the results list is non-empty, return the first (and only)
+	         // result
+	    	 if (results.iterator().hasNext()) 
+	    	 {
 	    		 pm.deletePersistent(results.iterator().next());
-		        }
-	    	
-
-	    } finally {
+		     }
+	    } 
+	    finally 
+	    {
 
 	        pm.close();
 	    }

@@ -1,4 +1,6 @@
-
+/**
+ * Auto-generated class
+ */
 package org.tempuri;
 
 import java.net.MalformedURLException;

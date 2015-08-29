@@ -1,20 +1,20 @@
+/**
+ * JDO object for Events
+ */
 package com.MainServer.DB;
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
-
 import java.util.Date;
-import java.util.List;
 
-import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 /**
- * JDO-annotated model class for storing movie properties; movie's promotional
- * image is stored as a Blob (large byte array) in the image field.
+ * JDO-annotated model class for storing Events properties; 
+ * Event properties
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Events {

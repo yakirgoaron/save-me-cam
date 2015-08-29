@@ -1,26 +1,22 @@
+/**
+ * A class for client api that is connected to events
+ */
 package com.MainServer.ClientIO;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.MainServer.DB.Camera;
 import com.MainServer.DB.DetectImage;
 import com.MainServer.DB.Events;
-import com.MainServer.DB.ImageSaver;
 import com.MainServer.DB.ProcessRequest;
-import com.MainServer.SkiAPI.SkyAPI;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.AuthLevel;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.images.Image;
-import com.google.appengine.api.images.ImagesService;
-import com.google.appengine.api.images.ImagesServiceFactory;
-import com.google.appengine.api.images.OutputSettings;
 
 @Api(
 	name = "query",
@@ -31,27 +27,36 @@ import com.google.appengine.api.images.OutputSettings;
 )
 public class QueryEventsEndPoint {
 
+	/*
+	 * Method for query events by user
+	 */
 	@ApiMethod(name = "queryevents", httpMethod = HttpMethod.POST)
-	public List<EventsForUser> SendImage(@Named("userName") String userName) throws Exception
+	public List<EventsForUser> QueryEvents(@Named("userName") String userName) throws Exception
 	{
-		List<EventsForUser> eventUsers = new ArrayList();
+		
+		List<EventsForUser> eventUsers = new ArrayList<EventsForUser>();
 	    ProcessRequest check = new ProcessRequest();
+	    // get the camera 	
 	    Camera user = check.getUserCmaeraByName(userName);
 	    if(user != null)
 	    {
+	    	// get all the events by the user
 		    List<Events> eventsDB = check.getEventsByUser(user.getId());
 		    if(eventsDB != null)
 		    {
-			    for (Iterator iterator = eventsDB.iterator(); iterator.hasNext();)
+		    	// go over the events
+			    for (Iterator<Events> iterator = eventsDB.iterator(); iterator.hasNext();)
 			    {
 			    	if(iterator != null)
 			    	{
+			    		// convert the event to seralize object and add it to the list.
 						Events events = (Events) iterator.next();
 						EventsForUser userTemp = new EventsForUser();
 						userTemp.date = events.getDate();
 						userTemp.eventtype = events.getTypeId() != null ? events.getTypeId().toString() : "";
 						userTemp.message = events.getMessage();
 						DetectImage imageData = check.getDetectImageByUserAndImage(events.getImageID());
+						// create a link for the image
 						if(imageData != null)
 						{
 							userTemp.URL = "http://5-dot-uplifted-plate-89814.appspot.com/mainserver?key="+imageData.getimageSaverId();
@@ -62,8 +67,10 @@ public class QueryEventsEndPoint {
 				}
 		    }
 	    }
+	    // return the list
 	    return eventUsers;
 	}
+	// a class for return data
 	public class EventsForUser
 	{
 		public Date date;

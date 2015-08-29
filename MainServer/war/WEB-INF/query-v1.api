@@ -25,13 +25,13 @@
   },
   "methods" : {
     "query.queryevents" : {
-      "path" : "SendImage/{userName}",
+      "path" : "QueryEvents/{userName}",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ "868567712595-nq4bf0pn6vm6rq4kd8esmnk0u21c3m9m.apps.googleusercontent.com" ],
       "clientIds" : [ "868567712595-nq4bf0pn6vm6rq4kd8esmnk0u21c3m9m.apps.googleusercontent.com", "replace this with your Android client ID", "replace this with your iOS client ID" ],
-      "rosyMethod" : "com.MainServer.ClientIO.QueryEventsEndPoint.SendImage",
+      "rosyMethod" : "com.MainServer.ClientIO.QueryEventsEndPoint.QueryEvents",
       "request" : {
         "parameters" : {
           "userName" : {
@@ -84,7 +84,7 @@
       }
     },
     "methods" : {
-      "com.MainServer.ClientIO.QueryEventsEndPoint.SendImage" : {
+      "com.MainServer.ClientIO.QueryEventsEndPoint.QueryEvents" : {
         "response" : {
           "$ref" : "EventsForUserCollection"
         }

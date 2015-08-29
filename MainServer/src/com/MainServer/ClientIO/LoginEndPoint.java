@@ -1,6 +1,7 @@
+/**
+ * client api for login and users
+ */
 package com.MainServer.ClientIO;
-
-import java.util.logging.Logger;
 
 import com.MainServer.DB.Camera;
 import com.MainServer.DB.ProcessRequest;
@@ -18,6 +19,7 @@ import com.google.api.server.spi.config.Named;
 	audiences = {Ids.ANDROID_AUDIENCE}
 )
 public class LoginEndPoint {
+	// Get a user and a password and check that they are valid 
 	@ApiMethod(name = "login", httpMethod = HttpMethod.POST)
 	public void login(@Named("user") String user,@Named("password") String password) throws Exception
 	{
@@ -30,7 +32,7 @@ public class LoginEndPoint {
 	    }
 	    
 	}
-	
+	// Get a user name,mail and number and create it in the DB
 	@ApiMethod(name = "createuser", httpMethod = HttpMethod.POST)
 	public void createuser(@Named("user") String user,@Named("Name") String Name,@Named("Mail") String Mail,@Named("Number") String Number)
 	{

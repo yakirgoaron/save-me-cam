@@ -1,3 +1,6 @@
+/**
+ * Class that defines constants for endpoints definitions
+ */
 package com.MainServer.ClientIO;
 
 public class Ids {

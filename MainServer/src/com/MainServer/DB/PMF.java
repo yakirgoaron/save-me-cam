@@ -1,3 +1,6 @@
+/**
+ * Create a PersistenceManagerFactory for saving and query JDO objects
+ */
 package com.MainServer.DB;
 
 import javax.jdo.JDOHelper;

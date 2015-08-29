@@ -1,3 +1,6 @@
+/**
+ * Auto-generated class
+ */
 package com.github.mhendred.face4j.response;
 
 import static com.github.mhendred.face4j.response.ResponseHelper.toSavedTagList;

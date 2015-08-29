@@ -1,7 +1,7 @@
+/**
+ * JDO object for ImageSaver
+ */
 package com.MainServer.DB;
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
-import java.util.List;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -9,9 +9,13 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.Key;
+
 /**
- * JDO-annotated model class for storing movie properties; movie's promotional
+ * JDO-annotated model class for storing ImageSaver properties; movie's promotional
  * image is stored as a Blob (large byte array) in the image field.
+ * MMS raw data without manipulation
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class ImageSaver {
