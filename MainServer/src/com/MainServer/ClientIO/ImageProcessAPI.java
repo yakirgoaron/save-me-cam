@@ -1,10 +1,14 @@
 package com.MainServer.ClientIO;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.tempuri.*;
 
 import com.MainServer.SendMail;
 import com.MainServer.DB.Camera;
@@ -53,6 +57,38 @@ public class ImageProcessAPI {
 	    	List<Users> temp =prc.getUsersByCamera(currUser.getId());
 	    	SendMail.SendMailToUsers("SOMEONE DETECTED !!!!!!", "SOMEONE DETECTED !!!!!!", temp);
 	    }
+	}
+	
+	
+	@ApiMethod(name = "takeimage", httpMethod = HttpMethod.POST)
+	public TempString TakeImage(@Named("CameraName") String CameraName) throws Exception
+	{
+		OpenAPI a = new OpenAPI();
+		
+		OpenAPISoap openso =  a.getOpenAPISoap();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
+		String reult = openso.getPhotoListByDeviceIDForThreeDays("358739050298554", 1, 1, "");
+		
+		JSONObject jObject;
+		jObject = new JSONObject(reult);
+		JSONArray arr = jObject.getJSONArray("arr");
+		JSONObject item  = arr.getJSONObject(0);
+		JSONArray arrn = item.getJSONArray("items");
+		JSONObject item3  = arrn.getJSONObject(0);
+		String urlim = item3.getString("url");
+		TempString s = new TempString();
+		s.url = urlim;
+		return s;
+	}
+	
+	public class TempString
+	{
+		public String url;
 	}
 
 }

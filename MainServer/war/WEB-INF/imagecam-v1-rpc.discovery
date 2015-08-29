@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/MbTTm90gOtvflfAZErOeDW6Z20U\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/L7Vu6tIBbPHlgK28r6lmUHpG9n0\"",
  "discoveryVersion": "v1",
  "id": "imagecam:v1",
  "name": "imagecam",
@@ -68,6 +68,17 @@
    }
   }
  },
+ "schemas": {
+  "TempString": {
+   "id": "TempString",
+   "type": "object",
+   "properties": {
+    "url": {
+     "type": "string"
+    }
+   }
+  }
+ },
  "methods": {
   "imagecam.sendimage": {
    "id": "imagecam.sendimage",
@@ -87,6 +98,24 @@
     "ImageKey",
     "number"
    ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "imagecam.takeimage": {
+   "id": "imagecam.takeimage",
+   "parameters": {
+    "CameraName": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "CameraName"
+   ],
+   "returns": {
+    "$ref": "TempString"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

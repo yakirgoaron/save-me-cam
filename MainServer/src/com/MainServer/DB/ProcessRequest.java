@@ -260,10 +260,18 @@ public class ProcessRequest
 	public void DeleteUserByCamera(Users user)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(Users.class, "key == "+ user.getId());
 		
+		query.setRange(0, 1);
 
 	    try {
-	    	pm.deletePersistent(user);
+	    	 List<Users> results = (List<Users>) query.execute(user.getId().toString());
+	    	 if (results.iterator().hasNext()) {
+		            // If the results list is non-empty, return the first (and only)
+		            // result
+	    		 pm.deletePersistent(results.iterator().next());
+		        }
+	    	
 
 	    } finally {
 

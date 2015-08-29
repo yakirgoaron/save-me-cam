@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/MbTTm90gOtvflfAZErOeDW6Z20U\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/L7Vu6tIBbPHlgK28r6lmUHpG9n0\"",
  "discoveryVersion": "v1",
  "id": "imagecam:v1",
  "name": "imagecam",
@@ -11,10 +11,10 @@
   "x32": "http://www.google.com/images/icons/product/search-32.gif"
  },
  "protocol": "rest",
- "baseUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/imagecam/v1/SendImage/",
- "basePath": "/_ah/api/imagecam/v1/SendImage/",
+ "baseUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/imagecam/v1/",
+ "basePath": "/_ah/api/imagecam/v1/",
  "rootUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/",
- "servicePath": "imagecam/v1/SendImage/",
+ "servicePath": "imagecam/v1/",
  "batchPath": "batch",
  "parameters": {
   "alt": {
@@ -70,10 +70,21 @@
    }
   }
  },
+ "schemas": {
+  "TempString": {
+   "id": "TempString",
+   "type": "object",
+   "properties": {
+    "url": {
+     "type": "string"
+    }
+   }
+  }
+ },
  "methods": {
   "sendimage": {
    "id": "imagecam.sendimage",
-   "path": "{ImageKey}/{number}",
+   "path": "SendImage/{ImageKey}/{number}",
    "httpMethod": "POST",
    "parameters": {
     "ImageKey": {
@@ -93,6 +104,27 @@
     "ImageKey",
     "number"
    ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "takeimage": {
+   "id": "imagecam.takeimage",
+   "path": "TakeImage/{CameraName}",
+   "httpMethod": "POST",
+   "parameters": {
+    "CameraName": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "CameraName"
+   ],
+   "response": {
+    "$ref": "TempString"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
