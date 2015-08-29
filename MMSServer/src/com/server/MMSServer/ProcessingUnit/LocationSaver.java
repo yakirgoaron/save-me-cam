@@ -1,16 +1,17 @@
+/**
+ * JDO to save location data to DB
+ */
+
 package com.server.MMSServer.ProcessingUnit;
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
-
 import java.util.Date;
-import java.util.List;
 
-import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Key;
 
 /**
  * JDO-annotated model class for storing movie properties; movie's promotional

@@ -1,3 +1,7 @@
+/**
+ * JDO to save clear MMS data to DB
+ */
+
 package com.server.MMSServer.ProcessingUnit;
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
@@ -10,7 +14,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * JDO-annotated model class for storing movie properties; movie's promotional
+ * JDO-annotated model class for storing ImageSaver properties;
  * image is stored as a Blob (large byte array) in the image field.
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)

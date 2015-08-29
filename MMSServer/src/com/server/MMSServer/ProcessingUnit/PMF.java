@@ -1,3 +1,6 @@
+/**
+ * Create a PersistenceManagerFactory for saving and query JDO objects
+ */
 package com.server.MMSServer.ProcessingUnit;
 
 import javax.jdo.JDOHelper;
