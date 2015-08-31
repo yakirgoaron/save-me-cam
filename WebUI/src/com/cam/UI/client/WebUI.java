@@ -20,9 +20,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -46,7 +44,7 @@ public class WebUI implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	public final GreetingServiceAsync greetingService = GWT//changed to public by Nadyush
+	public final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 	public Label Header;
 	FlexTable usersTable;
@@ -76,20 +74,13 @@ public class WebUI implements EntryPoint {
 		nameField.setVisibleLength(13);
 		passField.setVisibleLength(13);
 		
-		// get GreetingServiceAsync singelton instance 
+		// get GreetingServiceAsync singleton instance 
 		ImpSingleton.getInstance().setGreetingServiceAsync(greetingService);
 		
 		// Focus the cursor on the name field when the app loads
 		nameField.setFocus(true);
 		nameField.selectAll();
 
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
-		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
 		final Label textToServerLabel = new Label();
 		RootPanel.setVisible(DOM.getElementById("NewUserTable"), false);
 		
@@ -106,7 +97,7 @@ public class WebUI implements EntryPoint {
 			}
 
 			/**
-			 * Fired when the user types in the nameField.
+			 * Fired when the user release enter button
 			 */
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -130,7 +121,7 @@ public class WebUI implements EntryPoint {
 				// Then, we send the input to the server.
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(username);
-				greetingService.greetServer(username, password,
+				greetingService.LoginCam(username, password,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
@@ -144,16 +135,12 @@ public class WebUI implements EntryPoint {
 								if (result.equals("SUCCESS"))
 								{
 									//TODO remove comment
-//									Label CamName = new Label("Hello "+nameField.getText());
-									Label CamName = new Label("Hello "+"CohenCam");
-									
-									//Window.open("StatusScreen.html", "_self", "");
-									// Save data to sessionStorage
-									//Window.Location.assign("StatusScreen.html?username="+nameField.getText());
+									Label CamName = new Label("Hello "+nameField.getText());
+
+									// Save camera user to sessionStorage
 									 Storage stockStore = null;
 									  stockStore = Storage.getLocalStorageIfSupported();
 									  stockStore.setItem("usename", nameField.getText());
-									  //RootPanel.get().clear();
 									  RootPanel.get("nameFieldContainer").clear();
 									  RootPanel.get("passFieldContainer").clear();
 									  RootPanel.get("sendButtonContainer").clear();
@@ -164,7 +151,7 @@ public class WebUI implements EntryPoint {
 									 
 									  DOM.getElementById("BodyContainer").removeClassName("Login");
 									  MenuScreen();
-									  StatusScreen();
+									  EventsScreen();
 								}
 									else
 									errorLabel.setText(result);
@@ -203,222 +190,229 @@ public class WebUI implements EntryPoint {
 		});
 		
 	}
-
-void StatusScreen ()
-{	
-	ClearScreen();
 	
-	Header.setText("Save Me Cam - Events");
-		  GreetingServiceAsync greetingService = ImpSingleton.getInstance().getGreetingServiceAsync();
-		  greetingService.GetEventsForUser(
-					new AsyncCallback<List<EventsForUserLocal>>() {
-						public void onFailure(Throwable caught) {
-							
-						}
-
-						public void onSuccess(List<EventsForUserLocal> events) {
-							int row = 1;
-							final FlexTable eventsTable=new FlexTable();
-							eventsTable.setWidth("50em");
-							eventsTable.setCellSpacing(5);
-							eventsTable.setCellPadding(3);
-							eventsTable.setText(0, 0, "Date");
-							//eventsTable.setText(0, 1, "Event");
-							eventsTable.setText(0, 1, "Message");
-							eventsTable.setText(0, 2, "Confidance(%)");
-							eventsTable.setText(0, 3, "picture");
-							
-							eventsTable.getRowFormatter().setStyleName(
-						            0,"FlexTable-Header");
-						    
-							for (EventsForUserLocal event:events)
-							{
-								row++;
-								eventsTable.setText(row, 0 , event.date.toString());
-								//eventsTable.setText(row, 1 , event.eventtype);
-								eventsTable.setText(row, 1 , event.message);
-								
-								if (event.confidance != null)
-									eventsTable.setText(row, 2 , event.confidance.toString());
-								else
-									eventsTable.setText(row, 2 , "---");
-								eventsTable.setWidget(row, 3, new Anchor("view picture", false, event.uRL, "_blank"));								
-							}
-							eventsTable.setBorderWidth(5);
-							RootPanel.get("HistoryTableContainer").add(eventsTable);
-						}
-					})	;
-	  }
-
-
-void MenuScreen ()
-{
-	 // Create a menu bar
-	   MenuBar menu = new MenuBar();
-	   menu.setAutoOpen(true);
-	   menu.setAnimationEnabled(true);
-	   	   
-	   menu.addItem("Events", new Command() {
-		      @Override
-		      public void execute() {
-		         StatusScreen();
-		      }
-		   });
-	   menu.addSeparator();
-	   menu.addItem("Users", new Command() {
-		      @Override
-		      public void execute() {
-		         UserScreen();
-		      }
-		   });
-	   menu.addSeparator();
-	   menu.addItem("Cam Status", new Command() {
-		      @Override
-		      public void execute() {
-		         CamStatusScreen();
-		      }
-		   });
-
-	   
-	   //add the menu to the root panel
-	   RootPanel.get("MenuContainer").add(menu);
-}
-
+	/*
+	 * this function is responsible for displaying events in the system
+	 */
+	void EventsScreen ()
+	{	
+		ClearScreen();
 		
-
-void UserScreen()
-{
-	ClearScreen();
-	
-	final Button NewUserButton = new Button("Add New User");	
-	final Button DeleteUserButton = new Button("Delete Selected User");	
-	RootPanel.get("UserAddButtonContainer").add(NewUserButton);	
-	RootPanel.get("UserDeleteButtonContainer").add(DeleteUserButton);
-	DeleteUserButton.setEnabled(false);
-	Header.setText("Save Me Cam - User Management");
-	
-	greetingService.GetUsersForCamera(
-			
-		new AsyncCallback<List<UsersForCameraLocal>>() {
-			public void onFailure(Throwable caught) {
-				
-			}
-
-			public void onSuccess(List<UsersForCameraLocal> users) {
-				
-				int row = 1;
-				usersTable = new FlexTable();
-				usersTable.setWidth("50em");
-				usersTable.setCellSpacing(5);
-				usersTable.setCellPadding(3);
-				usersTable.setText(row, 0, "Name");
-				usersTable.setText(row, 1, "Phone Number");
-				usersTable.setText(row, 2, "Mail");
-				
-				for (UsersForCameraLocal user:users)
-				{
-					row++;
-					usersTable.setText(row, 0 , user.name);
-					usersTable.setText(row, 1 , user.phone);
-					usersTable.setText(row, 2 , user.mail);								
-				}
-				usersTable.setBorderWidth(5);
-				RootPanel.get("UserTableContainer").add(usersTable);
-
-				usersTable.addClickHandler(	//Create a handler for the sendButton and nameField
-						new  ClickHandler(){
-							/**
-							 * Fired when the user clicks on the sendButton.
-							 */
-							public void onClick(ClickEvent event) {
-								
-								Cell src = usersTable.getCellForEvent(event);
-					            rowIndex = src.getRowIndex();
-					            System.out.println("row!!!" + rowIndex);
-					            
-					            for(int row=1; row < usersTable.getRowCount(); row++)
-					            {
-					            	usersTable.getRowFormatter().removeStyleName(row, "SelectedRow");
-					            }
-					            
-					            //we won`t select the header
-					            if (rowIndex > 1) 
-					            {
-					            	usersTable.getRowFormatter().addStyleName(rowIndex, "SelectedRow");
-					            	DeleteUserButton.setEnabled(true);
-					            }
-					            else
-					            {
-					            	DeleteUserButton.setEnabled(false);
-					            }
+		Header.setText("Save Me Cam - Events");
+			  GreetingServiceAsync greetingService = ImpSingleton.getInstance().getGreetingServiceAsync();
+			  greetingService.GetEventsForUser(
+						new AsyncCallback<List<EventsForUserLocal>>() {
+							public void onFailure(Throwable caught) {
+								Label EventsErrorLabel = new Label();
+								EventsErrorLabel.setText(SERVER_ERROR);
+								RootPanel.get("EventsErrorLabelContainer").add(EventsErrorLabel);									
 							}
-						});						
-			}
+	
+							public void onSuccess(List<EventsForUserLocal> events) {
+								
+								// show events table
+								int row = 1;
+								final FlexTable eventsTable=new FlexTable();
+								eventsTable.setWidth("50em");
+								eventsTable.setCellSpacing(5);
+								eventsTable.setCellPadding(3);
+								eventsTable.setText(0, 0, "Date");
+								eventsTable.setText(0, 1, "Message");
+								eventsTable.setText(0, 2, "Confidance(%)");
+								eventsTable.setText(0, 3, "picture");
+								
+								eventsTable.getRowFormatter().setStyleName(
+							            0,"FlexTable-Header");
+							    
+								for (EventsForUserLocal event:events)
+								{
+									row++;
+									eventsTable.setText(row, 0 , event.date.toString());
+									eventsTable.setText(row, 1 , event.message);
+									
+									if (event.confidance != null)
+										eventsTable.setText(row, 2 , event.confidance.toString());
+									else
+										eventsTable.setText(row, 2 , "---");
+									eventsTable.setWidget(row, 3, new Anchor("view picture", false, event.uRL, "_blank"));								
+								}
+								eventsTable.setBorderWidth(5);
+								RootPanel.get("HistoryTableContainer").add(eventsTable);
+							}
+						})	;
+		  }
+	
+	
+	/*
+	 * this function is responsible for displaying the menu 
+	 */
+	void MenuScreen ()
+	{
+		 // Create a menu bar
+		   MenuBar menu = new MenuBar();
+		   menu.setAutoOpen(true);
+		   menu.setAnimationEnabled(true);
+		   	   
+		   menu.addItem("Events", new Command() {
+			      @Override
+			      public void execute() {
+			         EventsScreen();
+			      }
+			   });
+		   menu.addSeparator();
+		   menu.addItem("Users", new Command() {
+			      @Override
+			      public void execute() {
+			         UserScreen();
+			      }
+			   });
+		   menu.addSeparator();
+		   menu.addItem("Cam Status", new Command() {
+			      @Override
+			      public void execute() {
+			         CamStatusScreen();
+			      }
+			   });
+	
+		   //add the menu to the root panel
+		   RootPanel.get("MenuContainer").add(menu);
+	}
+	
 			
-		})	;
-
-//Create a handler for the sendButton and nameField
-	class AddNewUserHandler implements ClickHandler{
-		/**
-		 * Fired when the user clicks on the sendButton.
-		 */
-		public void onClick(ClickEvent event) {
-			NewUserScreen();
-			NewUserButton.setEnabled(false);
-		//	Window.open("NewScreen.html", "_self", ""); 
-		}
-	}
+	/*
+	 * UsersScreen -shows existing users in system and supports adding/deleting users
+	 */
+	void UserScreen()
+	{
+		ClearScreen();
+		
+		final Button NewUserButton = new Button("Add New User");	
+		final Button DeleteUserButton = new Button("Delete Selected User");	
+		RootPanel.get("UserAddButtonContainer").add(NewUserButton);	
+		RootPanel.get("UserDeleteButtonContainer").add(DeleteUserButton);
+		DeleteUserButton.setEnabled(false);
+		Header.setText("Save Me Cam - User Management");
+		
+		// request from server to get existing users in system
+		greetingService.GetUsersForCamera(				
+			new AsyncCallback<List<UsersForCameraLocal>>() {
+				public void onFailure(Throwable caught) {
+					Label DeleteUserErrorLabel = new Label();
+					DeleteUserErrorLabel.setText(SERVER_ERROR);
+					RootPanel.get("UserErrorLabelContainer").add(DeleteUserErrorLabel);					
+				}
 	
-	//Create a handler for the sendButton and nameField
-	class DeleteUserHandler implements ClickHandler{
-		/**
-		 * Fired when the user clicks on the sendButton.
-		 */
-		public void onClick(ClickEvent event) {
-			DeleteUser();
-			DeleteUserButton.setEnabled(false);
-		//	Window.open("NewScreen.html", "_self", ""); 
-		}
-	}
+				public void onSuccess(List<UsersForCameraLocal> users) {
+					
+					// Display Users table
+					int row = 1;
+					usersTable = new FlexTable();
+					usersTable.setWidth("50em");
+					usersTable.setCellSpacing(5);
+					usersTable.setCellPadding(3);
+					usersTable.setText(row, 0, "Name");
+					usersTable.setText(row, 1, "Phone Number");
+					usersTable.setText(row, 2, "Mail");
+					
+					for (UsersForCameraLocal user:users)
+					{
+						row++;
+						usersTable.setText(row, 0 , user.name);
+						usersTable.setText(row, 1 , user.phone);
+						usersTable.setText(row, 2 , user.mail);								
+					}
+					usersTable.setBorderWidth(5);
+					RootPanel.get("UserTableContainer").add(usersTable);
 	
-	AddNewUserHandler NewUserHandler = new AddNewUserHandler();
-	NewUserButton.addClickHandler(NewUserHandler);
-	
-	DeleteUserHandler UserHandler = new DeleteUserHandler();
-	DeleteUserButton.addClickHandler(UserHandler);
-} 
-
-/*
- * This function responsible for adding a new user
- */
-void NewUserScreen()
-{	
-	final Button AddUserButton = new Button("Add User");
-	System.out.println("NewUserScreen");
-	final TextBox UserNameField = new TextBox();
-	final TextBox UserPhoneField = new TextBox();
-	final TextBox UserMailField = new TextBox();
-	final Label NewUserErrorLabel = new Label();
-	RootPanel.get("NewUserNameFieldContainer").add(UserNameField);
-	RootPanel.get("NewUserPhoneFieldContainer").add(UserPhoneField);
-	RootPanel.get("NewUserMailFieldContainer").add(UserMailField);
-	RootPanel.get("NewUserAddButtonContainer").add(AddUserButton);
-	RootPanel.get("NewUserErrorLabelContainer").add(NewUserErrorLabel);
-
-	RootPanel.setVisible(DOM.getElementById("NewUserTable"), true);
+					usersTable.addClickHandler(	//Create a handler for selecting a row in users table
+							new  ClickHandler(){
+								public void onClick(ClickEvent event) {
+									
+									// get the selected cell
+									Cell src = usersTable.getCellForEvent(event);
+						            rowIndex = src.getRowIndex();
+						            
+						            // delete style from all rows
+						            for(int row=1; row < usersTable.getRowCount(); row++)
+						            {
+						            	usersTable.getRowFormatter().removeStyleName(row, "SelectedRow");
+						            }
+						            
+						            //we won`t select the header
+						            if (rowIndex > 1) 
+						            {
+						            	// add style (highlight) for selected row
+						            	usersTable.getRowFormatter().addStyleName(rowIndex, "SelectedRow");
+						            	DeleteUserButton.setEnabled(true);
+						            }
+						            else
+						            {
+						            	DeleteUserButton.setEnabled(false);
+						            }
+								}
+							});						
+				}
+				
+			});
 	
 		//Create a handler for the sendButton and nameField
-		class NewUserHandler implements ClickHandler, KeyUpHandler {
+		class AddNewUserHandler implements ClickHandler{
+			/**
+			 * Fired when the user clicks on the add new user button.
+			 */
+			public void onClick(ClickEvent event) {
+				NewUserScreen();
+				NewUserButton.setEnabled(false);
+			}
+		}
+		
+		//Create a handler for the sendButton and nameField
+		class DeleteUserHandler implements ClickHandler{
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
+				DeleteUser();
+				DeleteUserButton.setEnabled(false); 
+			}
+		}
+		
+		AddNewUserHandler NewUserHandler = new AddNewUserHandler();
+		NewUserButton.addClickHandler(NewUserHandler);
+		
+		DeleteUserHandler UserHandler = new DeleteUserHandler();
+		DeleteUserButton.addClickHandler(UserHandler);
+	} 
+	
+	/*
+	 * This function is responsible for adding a new user
+	 */
+	void NewUserScreen()
+	{	
+		final Button AddUserButton = new Button("Add User");
+		final TextBox UserNameField = new TextBox();
+		final TextBox UserPhoneField = new TextBox();
+		final TextBox UserMailField = new TextBox();
+		final Label NewUserErrorLabel = new Label();
+		RootPanel.get("NewUserNameFieldContainer").add(UserNameField);
+		RootPanel.get("NewUserPhoneFieldContainer").add(UserPhoneField);
+		RootPanel.get("NewUserMailFieldContainer").add(UserMailField);
+		RootPanel.get("NewUserAddButtonContainer").add(AddUserButton);
+		RootPanel.get("NewUserErrorLabelContainer").add(NewUserErrorLabel);
+	
+		RootPanel.setVisible(DOM.getElementById("NewUserTable"), true);
+		
+		// Create a handler for the add user button
+		class NewUserHandler implements ClickHandler, KeyUpHandler {
+			/**
+			 * Fired when the user clicks on the Button.
+			 */
+			public void onClick(ClickEvent event) {
 				sendNewUserToServer();
-			//	Window.open("NewScreen.html", "_self", ""); 
 			}
 
 			/**
-			 * Fired when the user types in the nameField.
+			 * Fired when the user release enter key.
 			 */
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -442,7 +436,7 @@ void NewUserScreen()
 
 				// Then, we send the input to the server.
 				AddUserButton.setEnabled(false);
-				greetingService.createUser(userName, userPhone, userMail,
+				greetingService.CreateUser(userName, userPhone, userMail,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
@@ -454,10 +448,10 @@ void NewUserScreen()
 							public void onSuccess(String result) {
 								NewUserErrorLabel.setText(result);
 									
-									UserNameField.setText("");
-									UserPhoneField.setText("");
-									UserMailField.setText("");
-									NewUserErrorLabel.setText(result);
+								UserNameField.setText("");
+								UserPhoneField.setText("");
+								UserMailField.setText("");
+								NewUserErrorLabel.setText(result);
 
 								AddUserButton.setEnabled(true);
 								UserScreen();
@@ -465,90 +459,110 @@ void NewUserScreen()
 						});
 			}
 		}
-		
+			
 		NewUserHandler UserHandler = new NewUserHandler();
 		AddUserButton.addClickHandler(UserHandler);
-}
-
-void DeleteUser()
-{
-	String username = usersTable.getText(rowIndex, 0);
-	System.out.println(username);
-	greetingService.DeleteUser(username,
-			new AsyncCallback<String>() {
-				public void onFailure(Throwable caught) {
-					System.out.println("fail");
-				}
-
-				public void onSuccess(String result) {
-					UserScreen();
-					System.out.println("success");
-				}
-			});
-	
-}
-
-void CamStatusScreen()
-{
-	ClearScreen();
-	
-	Header.setText("Save Me Cam - Camera Status");
-	final Button CurrentPic = new Button("Show current situation image from car");
-	RootPanel.get("CurrPicButtonContainer").add(CurrentPic);
-	
-	class PicHandler implements ClickHandler{
-
-		/**
-		 * Fired when the user clicks on the sendButton.
-		 */
-		public void onClick(ClickEvent event) {			
-				TakeImage();
-		}
-		
-		private void TakeImage()
-		{
-	      
-	      greetingService.TakeImage(
-					new AsyncCallback<String>() {
-						public void onFailure(Throwable caught) {
-							// Show the RPC error message to the user
-//							NewUserErrorLabel
-//									.setText(SERVER_ERROR);
-//							AddUserButton.setEnabled(true);
-						}
-
-						public void onSuccess(String result) {
-							Image image = new Image();
-							
-							RootPanel.get("PictureContainer").clear();
-					      //set image source
-					      image.setUrl("empty-carseats.jpg");
-							//image.setUrl(result);
-							System.out.println("pic "+ result);
-					      image.setSize("500px", "500px");
-					      // Add image to the root panel.
-					      VerticalPanel panel = new VerticalPanel();
-					      panel.add(image);
-
-					      RootPanel.get("PictureContainer").add(panel);
-						}
-					});
-		}
 	}
 	
-	PicHandler temph = new PicHandler();
-	CurrentPic.addClickHandler(temph);
+	/*
+	 * Deleting an existing user
+	 */
+	void DeleteUser()
+	{
+		// get the selected user name from users table
+		String username = usersTable.getText(rowIndex, 0);
+		
+		// request from server to delete the user
+		greetingService.DeleteUser(username,
+				new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						Label DeleteUserErrorLabel = new Label();
+						DeleteUserErrorLabel.setText(SERVER_ERROR);
+						RootPanel.get("UserErrorLabelContainer").add(DeleteUserErrorLabel);
+					}
 	
-}
-
-public void ClearScreen()
-{
-	RootPanel.get("UserAddButtonContainer").clear();
-	RootPanel.get("UserDeleteButtonContainer").clear();
-	RootPanel.get("HistoryTableContainer").clear();
-	RootPanel.get("UserTableContainer").clear();
-	RootPanel.get("CurrPicButtonContainer").clear();
-	RootPanel.setVisible(DOM.getElementById("NewUserTable"), false);
-	RootPanel.get("PictureContainer").clear();
-}
+					public void onSuccess(String result) {
+						UserScreen();
+						Label DeleteUserSuccessLabel = new Label();
+						DeleteUserSuccessLabel.setText("Deleting User was successful!");
+						RootPanel.get("UserSuccessLabelContainer").add(DeleteUserSuccessLabel);
+						
+					}
+				});	 
+	}
+	
+	/*
+	 * Show current camera status - take a real-time picture from the car
+	 */
+	void CamStatusScreen()
+	{
+		ClearScreen();
+		
+		Header.setText("Save Me Cam - Camera Status");
+		final Button CurrentPic = new Button("Show current situation image from car");
+		RootPanel.get("CurrPicButtonContainer").add(CurrentPic);
+		
+		class PicHandler implements ClickHandler{
+	
+			/**
+			 * Fired when the user clicks on the sendButton.
+			 */
+			public void onClick(ClickEvent event) {			
+					TakeImage();
+			}
+			
+			private void TakeImage()
+			{
+				// request from server to take a picture 
+				greetingService.TakeImage(
+						new AsyncCallback<String>() {
+							public void onFailure(Throwable caught) {
+								Label StatusCamErrorLabel = new Label();
+								StatusCamErrorLabel.setText(SERVER_ERROR);
+								RootPanel.get("StatusCamErrorLabelContainer").add(StatusCamErrorLabel);
+							}
+	
+							public void onSuccess(String result) {								
+								Image image = new Image();
+								
+								RootPanel.get("PictureContainer").clear();
+						        //set image source
+						        //image.setUrl("empty-carseats.jpg");
+							    image.setUrl(result);
+						        image.setSize("500px", "500px");
+						        // Add image to the root panel.
+						        VerticalPanel panel = new VerticalPanel();
+						        panel.add(image);
+	
+						        RootPanel.get("PictureContainer").add(panel);
+							}
+						});
+			}
+		}
+		
+		PicHandler temph = new PicHandler();
+		CurrentPic.addClickHandler(temph);
+	}
+	
+	/*
+	 * clear screen from elements
+	 */
+	public void ClearScreen()
+	{
+		RootPanel.get("UserAddButtonContainer").clear();
+		RootPanel.get("UserDeleteButtonContainer").clear();
+		RootPanel.get("HistoryTableContainer").clear();
+		RootPanel.get("UserTableContainer").clear();
+		RootPanel.get("StatusCamErrorLabelContainer").clear();
+		RootPanel.get("CurrPicButtonContainer").clear();
+		RootPanel.get("UserErrorLabelContainer").clear();
+		RootPanel.get("UserSuccessLabelContainer").clear();
+		RootPanel.setVisible(DOM.getElementById("NewUserTable"), false);
+		RootPanel.get("PictureContainer").clear();
+		RootPanel.get("NewUserNameFieldContainer").clear();
+		RootPanel.get("NewUserPhoneFieldContainer").clear();
+		RootPanel.get("NewUserMailFieldContainer").clear();
+		RootPanel.get("NewUserAddButtonContainer").clear();
+		RootPanel.get("NewUserErrorLabelContainer").clear();
+	}
 }
