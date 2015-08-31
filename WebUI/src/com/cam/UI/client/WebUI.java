@@ -87,7 +87,7 @@ public class WebUI implements EntryPoint {
 		DOM.getElementById("BodyContainer").setClassName("Login");
 
 		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
+		class LoginHandler implements ClickHandler, KeyUpHandler {
 
 			/**
 			 * Fired when the user clicks on the sendButton.
@@ -161,22 +161,10 @@ public class WebUI implements EntryPoint {
 			}
 		}
 
-		
-		class tempHandler implements ClickHandler{
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				UserScreen(); 
-			}
-		}
-
 		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		tempHandler handler1 = new tempHandler();
-		sendButton.addClickHandler(handler);
-		userButton.addClickHandler(handler1);
-		nameField.addKeyUpHandler(handler);
+		LoginHandler loginHandler = new LoginHandler();
+		sendButton.addClickHandler(loginHandler);
+		nameField.addKeyUpHandler(loginHandler);
 		passField.addKeyUpHandler(new KeyUpHandler() {
 
 		    @Override
