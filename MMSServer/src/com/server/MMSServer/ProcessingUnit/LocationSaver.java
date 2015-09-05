@@ -25,11 +25,25 @@ public class LocationSaver {
     private Key key;
 
     @Persistent
-    private Date detectedDate;
+    private String Country;
     
     @Persistent
-    private String ipOfLocation;
+    private String Region;
+    
+    @Persistent
+    private String City;
+        
+    @Persistent
+    private Date LocDate;
+    
+    @Persistent
+    private int LocX;
 
+    @Persistent
+    private int LocY;
+    
+    @Persistent
+    private Long ImageID;
     //...
 
     public Long getId() {
@@ -37,21 +51,61 @@ public class LocationSaver {
     }
 
 
+    public String getCountry() {
+        return Country;
+    }
+    
+    public String getRegion() {
+        return Region;
+    }
+    
+    public String getCity() {
+        return City;
+    }
+    
+    public int getLocX() {
+        return LocX;
+    }
+    
     public Date getDate() {
-        return detectedDate;
+        return LocDate;
     }
     
-    public String getIpLocation() {
-        return ipOfLocation;
+    public int getLocY() {
+        return LocY;
+    }
+    
+    public Long getImageID() {
+        return  ImageID;
     }
 
 
-    public void setIpLocation(String ipOfLocation) {
-        this.ipOfLocation = ipOfLocation;
+    public void setCountry(String Country) {
+        this.Country = Country;
     }
     
-    public void setDetectedDate(Date detectedDate) {
-        this.detectedDate = detectedDate;
+    public void setRegion(String Region) {
+        this.Region = Region;
+    }
+    
+    public void setCity(String City) {
+        this.City = City;
+    }
+    
+    public void setLocX(int LocX) {
+        this.LocX = LocX;
+    }
+    
+    public void setLocY(int LocY) {
+        this.LocY = LocY;
+    }
+    
+    public void setLocDate(Date LocDate) {
+        this.LocDate = LocDate;
+    }
+    
+    public void setImageID(Long ImageID) {
+        this.ImageID = ImageID;
     }
 
     //...
