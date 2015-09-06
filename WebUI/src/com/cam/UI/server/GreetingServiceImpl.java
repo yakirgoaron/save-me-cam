@@ -183,7 +183,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	    try {
 	    	// requesting from server to take a picture from camera and send url
 			TempString img = service.takeimage(this.cameraName).execute();
-			System.out.println(img.getUrl());
 			return (img.getUrl());			
 		} catch (IOException e) {
 			a = "ERROR - problem at taking picture";

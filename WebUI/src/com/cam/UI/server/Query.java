@@ -65,7 +65,7 @@ public class Query extends com.google.api.client.googleapis.services.json.Abstra
    *
    * @since 1.7
    */
-  public static final String DEFAULT_SERVICE_PATH = "query/v1/SendImage/";
+  public static final String DEFAULT_SERVICE_PATH = "query/v1/QueryEvents/";
 
   /**
    * The default encoded base URL of the service. This is determined when the library is generated
