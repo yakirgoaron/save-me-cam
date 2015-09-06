@@ -114,7 +114,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 	
-	/*
+	/* 
 	 * GetUsersForCamera - used to getting all users registered for camera
 	 * @see com.cam.UI.client.GreetingService#GetUsersForCamera()
 	 */

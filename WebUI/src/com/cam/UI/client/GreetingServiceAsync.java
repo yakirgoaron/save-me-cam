@@ -6,7 +6,7 @@ import com.cam.UI.shared.EventsForUserLocal;
 import com.cam.UI.shared.UsersForCameraLocal;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
+/** 
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface GreetingServiceAsync {

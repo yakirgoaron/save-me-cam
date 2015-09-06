@@ -1,7 +1,7 @@
 package com.cam.UI.client;
 
 
-/*
+/*  
  * this class is used to hold an instance of GreetingServiceAsync 
  */
 public class ImpSingleton {
