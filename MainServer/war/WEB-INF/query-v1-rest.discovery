@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/2DzrlVq4aBxgAMkDK6UG5i4ZVZo\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/ZOy0YslwX-QXtbdIPAD25-E-L3c\"",
  "discoveryVersion": "v1",
  "id": "query:v1",
  "name": "query",
@@ -11,10 +11,10 @@
   "x32": "http://www.google.com/images/icons/product/search-32.gif"
  },
  "protocol": "rest",
- "baseUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/query/v1/SendImage/",
- "basePath": "/_ah/api/query/v1/SendImage/",
+ "baseUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/query/v1/QueryEvents/",
+ "basePath": "/_ah/api/query/v1/QueryEvents/",
  "rootUrl": "https://uplifted-plate-89814.appspot.com/_ah/api/",
- "servicePath": "query/v1/SendImage/",
+ "servicePath": "query/v1/QueryEvents/",
  "batchPath": "batch",
  "parameters": {
   "alt": {

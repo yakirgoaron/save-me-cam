@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/L7Vu6tIBbPHlgK28r6lmUHpG9n0\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/z9GC3-GzDiMPzgAOAUyCNbkgdaU\"",
  "discoveryVersion": "v1",
  "id": "imagecam:v1",
  "name": "imagecam",

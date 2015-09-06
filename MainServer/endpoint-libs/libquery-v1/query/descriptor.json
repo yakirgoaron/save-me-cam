@@ -1,13 +1,13 @@
 {
   "files": [
     {
-      "downloadUrl": "/downloads/query/v1/20150829103618/java/1.18.0-rc/uplifted_plate_89814_appspot_com-query-v1-20150829103618-java-1.18.0-rc-sources.jar", 
-      "path": "uplifted_plate_89814_appspot_com-query-v1-20150829103618-java-1.18.0-rc-sources.jar", 
+      "downloadUrl": "/downloads/query/v1/20150906192143/java/1.18.0-rc/uplifted_plate_89814_appspot_com-query-v1-20150906192143-java-1.18.0-rc-sources.jar", 
+      "path": "uplifted_plate_89814_appspot_com-query-v1-20150906192143-java-1.18.0-rc-sources.jar", 
       "type": "source", 
-      "timestamp": "2015-08-29 10:36"
+      "timestamp": "2015-09-06 19:21"
     }, 
     {
-      "path": "uplifted_plate_89814_appspot_com-query-v1-20150829103618-java-1.18.0-rc.jar.properties", 
+      "path": "uplifted_plate_89814_appspot_com-query-v1-20150906192143-java-1.18.0-rc.jar.properties", 
       "type": "android.properties"
     }
   ], 
@@ -674,5 +674,5 @@
   "version": "v1", 
   "language_version": "1.18.0-rc", 
   "id": "query:v1", 
-  "revision": 20150829103618
+  "revision": 20150906192143
 }
