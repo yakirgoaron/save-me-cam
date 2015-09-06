@@ -59,8 +59,7 @@ public class MMSServerLocalImageExtract extends HttpServlet
 			// save the data and the ip for recognize location
 			ProcessRequest prcUnit = new ProcessRequest();
 			long image = prcUnit.SaveImageToDB(telephoneNumber, nData,locx,locy);
-			if(image != 0 )
-				prcUnit.SaveLocationToDB(Country,Region,City,locx,locy,image );
+			prcUnit.SaveLocationToDB(Country,Region,City,locx,locy,image );
 			
 		}
 	}

@@ -35,8 +35,8 @@ public class ProcessRequest
 	             Imagecam quote = new Imagecam(builder);
 	             quote.sendimage(temp.getId(),(long) 123456).execute(); 
 			 }
-			 if( (loc.getLocX() < (locx+1) || loc.getLocX() > (locx-1)) && 
-  			     (loc.getLocY() < (locy+1) || loc.getLocY() > (locy-1)) )
+			 if( (loc.getLocX() < (locx+0.0001) || loc.getLocX() > (locx-0.0001)) && 
+  			     (loc.getLocY() < (locy+0.0001) || loc.getLocY() > (locy-0.0001)) )
 			 {
 				Imagecam.Builder builder = new Imagecam.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
              	Imagecam quote = new Imagecam(builder);
