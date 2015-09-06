@@ -15,7 +15,7 @@ import com.google.api.client.json.gson.GsonFactory;
 public class ProcessRequest 
 {
 	// Save an raw image data to DB
-	public long SaveImageToDB(String strTelephoneNumber,byte[] picData,int locx,int locy)
+	public long SaveImageToDB(String strTelephoneNumber,byte[] picData,double locx,double locy)
 	{
 		long imageID = 0;
 		ImageSaver img = new ImageSaver();
@@ -29,9 +29,14 @@ public class ProcessRequest
 			 imageID = temp.getId(); 
 			 LocationSaver loc =  GetLastLocationFromDB();
 			 //DetectImage dect = getDetectImageByUserAndImage(loc.getImageID());
-			 
-			 if((loc.getLocX() < (locx+1) || loc.getLocX() > (locx-1)) && 
-  			    (loc.getLocY() < (locy+1) || loc.getLocY() > (locy-1)) )
+			 if(loc == null)
+			 {
+				 Imagecam.Builder builder = new Imagecam.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
+	             Imagecam quote = new Imagecam(builder);
+	             quote.sendimage(temp.getId(),(long) 123456).execute(); 
+			 }
+			 if( (loc.getLocX() < (locx+1) || loc.getLocX() > (locx-1)) && 
+  			     (loc.getLocY() < (locy+1) || loc.getLocY() > (locy-1)) )
 			 {
 				Imagecam.Builder builder = new Imagecam.Builder(UrlFetchTransport.getDefaultInstance(), new GsonFactory(), null);
              	Imagecam quote = new Imagecam(builder);
@@ -104,7 +109,7 @@ public class ProcessRequest
 	}
 	
 	// Save location to DB
-	public boolean SaveLocationToDB(String Country,String Region,String City,int locx,int locy,long image)
+	public boolean SaveLocationToDB(String Country,String Region,String City,double locx,double locy,long image)
 	{
 		boolean isSuccess = true;
 		LocationSaver locSave = new LocationSaver();

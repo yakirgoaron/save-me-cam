@@ -46,8 +46,8 @@ public class MMSServerLocalImageExtract extends HttpServlet
 			String City = req.getHeader("X-AppEngine-City");
 			String CityLatLong = req.getHeader("X-AppEngine-CityLatLong");
 			String[] data = CityLatLong.split(",");
-			int locx = Integer.parseInt(data[0]);
-			int locy = Integer.parseInt(data[1]);
+			double locx = Double.parseDouble(data[0]);
+			double locy = Double.parseDouble(data[1]);
 			
 			
 			for (Enumeration itr=req.getHeaderNames(); itr.hasMoreElements();) {

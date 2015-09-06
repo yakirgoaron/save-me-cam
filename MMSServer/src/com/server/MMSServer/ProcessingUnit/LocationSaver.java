@@ -37,10 +37,10 @@ public class LocationSaver {
     private Date LocDate;
     
     @Persistent
-    private int LocX;
+    private double LocX;
 
     @Persistent
-    private int LocY;
+    private double LocY;
     
     @Persistent
     private Long ImageID;
@@ -63,7 +63,7 @@ public class LocationSaver {
         return City;
     }
     
-    public int getLocX() {
+    public double getLocX() {
         return LocX;
     }
     
@@ -71,7 +71,7 @@ public class LocationSaver {
         return LocDate;
     }
     
-    public int getLocY() {
+    public double getLocY() {
         return LocY;
     }
     
@@ -92,11 +92,11 @@ public class LocationSaver {
         this.City = City;
     }
     
-    public void setLocX(int LocX) {
+    public void setLocX(double LocX) {
         this.LocX = LocX;
     }
     
-    public void setLocY(int LocY) {
+    public void setLocY(double LocY) {
         this.LocY = LocY;
     }
     
